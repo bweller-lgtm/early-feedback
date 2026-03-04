@@ -39,7 +39,7 @@ The `/evaluate` skill walks through 5 steps in a single conversation:
 
 1. **Parse Context** -- Extracts structured product information (name, value proposition, target users, competitors, assumptions to test)
 2. **Generate Personas** -- Creates 8 diverse synthetic users (2 skeptics, 3 neutral, 3 enthusiastic) with realistic backgrounds, workflows, and pain points
-3. **Simulate Interviews** -- Conducts 6-7 exchange interviews with each persona covering workflow, reactions, pricing, concerns, and switching intent
+3. **Simulate Interviews** -- Conducts full Q&A interviews (6-7 exchanges each) with each persona covering workflow, reactions, pricing, concerns, and switching intent
 4. **Analyze Feedback** -- Identifies recurring themes, ranks pain points, surfaces adoption barriers, and extracts willingness-to-pay signals
 5. **Generate Report** -- Produces a scored evaluation with a verdict and actionable recommendations, saved to `outputs/`
 
@@ -74,7 +74,7 @@ Reports are saved as Markdown files in `outputs/` with the naming convention `YY
 4. Audience Segmentation
 5. Risks and Concerns
 6. Prioritized Recommendations
-7. Appendix with individual interview summaries
+7. Appendix with full interview transcripts (Q&A dialogue for all 8 personas)
 
 ## Tests
 
@@ -83,7 +83,7 @@ pip install pytest
 python -m pytest tests/ -v
 ```
 
-99 tests validate that the skill file contains all required methodology (scoring framework, persona diversity, interview coverage, report structure) and that generated reports meet the expected format.
+101 tests validate that the skill file contains all required methodology (scoring framework, persona diversity, interview coverage, report structure) and that generated reports meet the expected format.
 
 You can also validate any generated report directly:
 
@@ -96,8 +96,8 @@ python tests/validate_report.py outputs/2026-03-04-my-product.md
 ```
 .claude/commands/evaluate.md   # The skill -- all evaluation methodology
 tests/
-  test_skill_content.py        # Validates skill has complete methodology
-  test_report_format.py        # Validates generated report structure
+  test_skill_content.py        # Validates skill has complete methodology (76 tests)
+  test_report_format.py        # Validates generated report structure (25 tests)
   validate_report.py           # Standalone CLI report validator
   conftest.py                  # Shared fixtures and sample report
 outputs/                       # Generated evaluation reports

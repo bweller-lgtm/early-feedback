@@ -1,14 +1,8 @@
 [project]
 name = "simulated-innovation"
-version = "0.1.0"
+version = "0.2.0"
 description = "Evaluate project ideas using synthetic user personas and simulated interviews"
 requires-python = ">=3.11"
-dependencies = [
-    "anthropic>=0.40.0",
-    "pydantic>=2.0",
-    "python-dotenv>=1.0",
-]
 
-[tool.setuptools]
-packages = ["steps"]
-py-modules = ["evaluate", "pipeline", "models", "llm", "config"]
+[tool.pytest.ini_options]
+testpaths = ["tests"]

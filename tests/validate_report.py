@@ -78,10 +78,15 @@ def validate(report_path: Path) -> list[str]:
     if not any(v in lower for v in verdicts):
         issues.append("MISSING: No recognized verdict phrase")
 
-    # --- Interview summaries ---
+    # --- Interview transcripts ---
     persona_count = count_persona_summaries(text)
     if persona_count < 8:
-        issues.append(f"INCOMPLETE: Found {persona_count}/8 persona interview summaries")
+        issues.append(f"INCOMPLETE: Found {persona_count}/8 persona interview transcripts")
+
+    # --- Q&A exchanges ---
+    qa_count = len(re.findall(r"\*\*Q:", text))
+    if qa_count < 16:
+        issues.append(f"INCOMPLETE: Found {qa_count} Q&A exchanges (expected 16+ for 8 personas)")
 
     # --- Recommendations ---
     rec_items = re.findall(r"^\s*\d+\.\s+", text, re.MULTILINE)

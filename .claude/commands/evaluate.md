@@ -86,13 +86,12 @@ For each of the 8 personas, conduct a simulated interview. Fully adopt each pers
 6. What would need to be true to switch
 7. Overall recommendation
 
-**For each persona, output:**
-- A 2-3 sentence summary of their position
+**For each persona, write out the full interview transcript** as a Q&A dialogue with 6-7 exchanges. The interviewer asks probing questions; the persona responds in character with specific, detailed answers. After the transcript, include:
 - Overall sentiment: positive, negative, or mixed
 - Would adopt: yes, no, or unclear
 - 3-5 key direct quotes (the most notable things they said)
 
-Present all 8 interview results before continuing.
+Present all 8 full interview transcripts before continuing.
 
 ---
 
@@ -155,7 +154,7 @@ Write the report with these sections:
 4. **Audience Segmentation** — most vs least promising user types
 5. **Risks and Concerns** — critical issues to address
 6. **Recommendations** — prioritized, actionable next steps
-7. **Appendix: Interview Summaries** — condensed results from each persona
+7. **Appendix: Interview Transcripts** — full Q&A dialogue for each persona with sentiment, adoption verdict, and key quotes
 
 ### Output
 

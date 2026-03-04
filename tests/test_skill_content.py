@@ -241,9 +241,13 @@ class TestStep5ReportStructure:
     def test_breakdown_table(self, skill_content):
         assert "breakdown" in skill_content.lower()
 
-    def test_interview_summaries_in_appendix(self, skill_content):
+    def test_interview_transcripts_in_appendix(self, skill_content):
         lower = skill_content.lower()
         assert "appendix" in lower and "interview" in lower
+
+    def test_full_qa_dialogue_required(self, skill_content):
+        lower = skill_content.lower()
+        assert "transcript" in lower or "dialogue" in lower or "q&a" in lower
 
 
 class TestStep5Output:

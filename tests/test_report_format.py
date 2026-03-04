@@ -222,14 +222,30 @@ class TestKeyFindings:
 # Interview summaries tests
 # ---------------------------------------------------------------------------
 
-class TestInterviewSummaries:
-    """Verify interview summaries cover all personas."""
+class TestInterviewTranscripts:
+    """Verify interview transcripts cover all personas with Q&A dialogue."""
 
-    def test_at_least_eight_summaries(self, sample_report):
+    def test_at_least_eight_transcripts(self, sample_report):
         count = count_interview_summaries(sample_report)
-        assert count >= 8, f"Expected 8 interview summaries, found {count}"
+        assert count >= 8, f"Expected 8 interview transcripts, found {count}"
 
-    def test_summaries_include_sentiment(self, sample_report):
+    def test_transcripts_have_qa_exchanges(self, sample_report):
+        """Verify interviews contain actual Q&A dialogue, not just summaries."""
+        sections = extract_sections(sample_report)
+        appendix = ""
+        for k, v in sections.items():
+            if "appendix" in k or "interview" in k or "transcript" in k:
+                appendix = v
+                break
+        if not appendix:
+            pytest.skip("Appendix section not found")
+        # Look for Q: or **Q: patterns indicating interview questions
+        qa_patterns = re.findall(r"\*\*Q:", appendix)
+        assert len(qa_patterns) >= 16, (
+            f"Expected at least 16 Q&A exchanges (2+ per persona), found {len(qa_patterns)}"
+        )
+
+    def test_transcripts_include_sentiment(self, sample_report):
         sections = extract_sections(sample_report)
         appendix = ""
         for k, v in sections.items():

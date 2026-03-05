@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/bweller-lgtm/SimulatedInnovation/master/assets/logo_icon.png" alt="Simulated Innovation" width="200">
+  <img src="assets/logo_icon.png" alt="Simulated Innovation" width="200">
 </p>
 
 <h1 align="center">Simulated Innovation</h1>
@@ -15,19 +15,19 @@ We fed it "a freelancer invoicing tool with cash flow prediction." It came back 
 ## Demo
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/bweller-lgtm/SimulatedInnovation/master/assets/demo_scores.png" alt="Scored evaluation with color-coded dimension breakdown" width="720">
+  <img src="assets/demo_scores.png" alt="Scored evaluation with color-coded dimension breakdown" width="720">
 </p>
 
 Scored across standard dimensions plus product-specific critical dimensions identified automatically.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/bweller-lgtm/SimulatedInnovation/master/assets/demo_interview.png" alt="Full Q&A persona interview transcripts" width="720">
+  <img src="assets/demo_interview.png" alt="Full Q&A persona interview transcripts" width="720">
 </p>
 
 Full Q&A transcripts — not summaries. Enthusiasts voice concerns. Skeptics acknowledge strengths.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/bweller-lgtm/SimulatedInnovation/master/assets/demo_experts.png" alt="Expert panel with independent domain assessments" width="720">
+  <img src="assets/demo_experts.png" alt="Expert panel with independent domain assessments" width="720">
 </p>
 
 Independent expert assessments. When their conclusions conflict, the tension is preserved.

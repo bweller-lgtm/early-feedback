@@ -351,6 +351,15 @@ def render(md_path):
             )
         body_html = replaced
 
+    # Style metadata block (Date/Evaluated by/Flags paragraph after h1)
+    body_html = re.sub(
+        r"(<p><strong>Date:</strong>.*?</p>)",
+        r'<div class="meta">\1</div>',
+        body_html,
+        count=1,
+        flags=re.DOTALL,
+    )
+
     # Make interview transcripts collapsible
     body_html = make_transcripts_collapsible(body_html)
 
@@ -359,7 +368,12 @@ def render(md_path):
     toc_items = []
     for level, t, slug in toc:
         cls = "level-3" if level == 3 else ""
-        toc_items.append(f'<a href="#{slug}" class="{cls}">{t}</a>')
+        # Fix: Overall Score heading gets replaced with id="overall-score"
+        if slug.startswith("overall-score"):
+            slug = "overall-score"
+        # Truncate long h3 entries for sidebar readability
+        display = t if len(t) <= 60 else t[:57] + "..."
+        toc_items.append(f'<a href="#{slug}" class="{cls}">{display}</a>')
     toc_html = "\n  ".join(toc_items)
 
     nav_title = re.sub(r"\s*[-—].*", "", title).strip()

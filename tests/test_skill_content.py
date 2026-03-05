@@ -2,7 +2,7 @@
 
 These tests ensure that any edits to the skill preserve the complete
 evaluation framework -- scoring, persona diversity, interview coverage,
-report structure, and output instructions.
+honesty guardrails, report structure, and output instructions.
 """
 
 import pytest
@@ -56,21 +56,17 @@ class TestStep1ParseContext:
     def test_target_industries_field(self, skill_content):
         assert "target industries" in skill_content.lower()
 
+    def test_information_gaps(self, skill_content):
+        lower = skill_content.lower()
+        assert "information gaps" in lower, "Must flag missing information instead of inferring"
+
 
 class TestStep2Personas:
     """Verify persona generation methodology is complete."""
 
-    def test_eight_personas(self, skill_content):
-        assert "8" in skill_content, "Must specify 8 personas"
-
-    def test_skeptic_distribution(self, skill_content):
-        assert "2 skeptic" in skill_content.lower()
-
-    def test_neutral_distribution(self, skill_content):
-        assert "3 neutral" in skill_content.lower()
-
-    def test_enthusiastic_distribution(self, skill_content):
-        assert "3 enthusiastic" in skill_content.lower()
+    def test_default_eight_personas(self, skill_content):
+        lower = skill_content.lower()
+        assert "default 8" in lower or ("8" in skill_content and "4-12" in skill_content)
 
     def test_tech_savviness_levels(self, skill_content):
         lower = skill_content.lower()
@@ -93,6 +89,39 @@ class TestStep2Personas:
 
     def test_diversity_company_size(self, skill_content):
         assert "company" in skill_content.lower()
+
+
+class TestStep2OrganicSentiment:
+    """Verify persona sentiment is organic, not forced."""
+
+    def test_no_forced_distribution(self, skill_content):
+        """The skill should NOT contain a forced ratio like '2 skeptics, 3 neutral'."""
+        lower = skill_content.lower()
+        assert "2 skeptic" not in lower, "Should not force skeptic count"
+        assert "3 neutral" not in lower, "Should not force neutral count"
+        assert "3 enthusiastic" not in lower, "Should not force enthusiastic count"
+
+    def test_organic_sentiment_instruction(self, skill_content):
+        """The skill should instruct organic/authentic/honest sentiment."""
+        lower = skill_content.lower()
+        assert any(word in lower for word in ["organic", "honest", "authentic", "natural"])
+
+    def test_sentiment_emerges_from_product(self, skill_content):
+        """Sentiment should depend on the product, not be predetermined."""
+        lower = skill_content.lower()
+        assert any(phrase in lower for phrase in ["emerge", "naturally", "honest reaction", "honest first reaction", "actual merit"])
+
+    def test_still_labels_sentiment(self, skill_content):
+        """Personas should still be labeled skeptic/neutral/enthusiastic."""
+        lower = skill_content.lower()
+        assert "skeptic" in lower
+        assert "neutral" in lower
+        assert "enthusiastic" in lower
+
+    def test_weak_idea_produces_skeptics(self, skill_content):
+        """A bad idea should yield more skeptics."""
+        lower = skill_content.lower()
+        assert any(word in lower for word in ["weak", "poorly targeted"])
 
 
 class TestStep3Interviews:
@@ -133,22 +162,92 @@ class TestStep3Interviews:
     def test_would_adopt_output(self, skill_content):
         assert "adopt" in skill_content.lower()
 
-    def test_skeptics_push_back(self, skill_content):
-        assert "push back" in skill_content.lower()
-
-    def test_enthusiasts_still_have_concerns(self, skill_content):
-        lower = skill_content.lower()
-        assert "enthusiast" in lower and "concern" in lower
-
     def test_anchor_pricing(self, skill_content):
         assert "anchor" in skill_content.lower() and "pay" in skill_content.lower()
+
+
+class TestAdaptiveInterviews:
+    """Verify interviews adapt to product type, not just fixed questions."""
+
+    def test_product_specific_questions(self, skill_content):
+        lower = skill_content.lower()
+        assert "specific" in lower and ("product" in lower or "context" in lower)
+
+    def test_marketplace_questions(self, skill_content):
+        lower = skill_content.lower()
+        assert "marketplace" in lower and ("chicken-and-egg" in lower or "supply-side" in lower or "supply" in lower)
+
+    def test_regulated_industry_questions(self, skill_content):
+        lower = skill_content.lower()
+        assert "regulated" in lower and ("compliance" in lower or "regulatory" in lower)
+
+
+class TestHonestyGuardrails:
+    """Verify the skill enforces honest, unbiased evaluation."""
+
+    def test_no_charitable_inference(self, skill_content):
+        """Should flag gaps instead of making optimistic assumptions."""
+        lower = skill_content.lower()
+        assert "do not fill gaps" in lower or "flag it as unknown" in lower
+
+    def test_symmetric_hedging(self, skill_content):
+        """Skeptics acknowledge strengths AND enthusiasts voice concerns."""
+        lower = skill_content.lower()
+        assert "skeptic" in lower and "strength" in lower
+        assert "enthusiast" in lower and "concern" in lower
+
+    def test_experts_must_disagree(self, skill_content):
+        """Experts should disagree where domains conflict."""
+        lower = skill_content.lower()
+        assert "disagree" in lower
+
+    def test_use_full_scoring_scale(self, skill_content):
+        """Should not cluster in the 5-7 range."""
+        lower = skill_content.lower()
+        assert "full" in lower and "scale" in lower
+        assert any(phrase in lower for phrase in ["do not cluster", "full 1-10", "full scale"])
+
+    def test_blunt_verdict_instruction(self, skill_content):
+        """Truth over encouragement."""
+        lower = skill_content.lower()
+        assert "truth" in lower and ("encourage" in lower or "founder" in lower)
+
+    def test_product_specific_critical_dimensions(self, skill_content):
+        """Should identify the most critical dimensions for this specific product."""
+        lower = skill_content.lower()
+        assert "most critical" in lower or "1-2 dimensions" in lower
+
+    def test_information_gaps_flagged(self, skill_content):
+        """Missing info should be flagged, not filled in."""
+        lower = skill_content.lower()
+        assert "information gaps" in lower
+
+
+class TestViabilityGate:
+    """Verify the viability gate after interviews."""
+
+    def test_viability_gate_exists(self, skill_content):
+        lower = skill_content.lower()
+        assert "viability gate" in lower or "viability" in lower
+
+    def test_early_termination_on_rejection(self, skill_content):
+        lower = skill_content.lower()
+        assert "early termination" in lower or "critical issues report" in lower
+
+    def test_critical_issues_report(self, skill_content):
+        lower = skill_content.lower()
+        assert "critical" in lower and ("issues" in lower or "report" in lower)
+
+    def test_full_flag_overrides(self, skill_content):
+        assert "--full" in skill_content
 
 
 class TestStep4ExpertPanel:
     """Verify expert panel review methodology is complete."""
 
-    def test_three_experts(self, skill_content):
-        assert "3" in skill_content and "expert" in skill_content.lower()
+    def test_default_three_experts(self, skill_content):
+        lower = skill_content.lower()
+        assert "default 3" in lower or ("3" in skill_content and "1-5" in skill_content)
 
     def test_experts_selected_by_context(self, skill_content):
         lower = skill_content.lower()
@@ -173,6 +272,9 @@ class TestStep4ExpertPanel:
     def test_experts_identify_gaps(self, skill_content):
         lower = skill_content.lower()
         assert "gap" in lower or "missed" in lower or "surface-level" in lower
+
+    def test_experts_can_be_skipped(self, skill_content):
+        assert "--no-experts" in skill_content
 
 
 class TestStep5FollowupInterviews:
@@ -292,7 +394,11 @@ class TestStep7Scoring:
         assert "4-5" in skill_content
 
     def test_score_anchor_weak(self, skill_content):
-        assert "<3" in skill_content
+        assert "<4" in skill_content
+
+    def test_expanded_scoring_table(self, skill_content):
+        """Scoring table should include 6-7 range, not just 8+/4-5/<3."""
+        assert "6-7" in skill_content
 
 
 class TestStep7ReportStructure:
@@ -352,6 +458,159 @@ class TestStep7Output:
     def test_summary_to_conversation(self, skill_content):
         lower = skill_content.lower()
         assert "summary" in lower or "print" in lower
+
+
+class TestConfigParsing:
+    """Verify the skill reads and applies configuration."""
+
+    def test_mentions_config_file(self, skill_content):
+        assert "evaluate.config.yaml" in skill_content
+
+    def test_config_is_optional(self, skill_content):
+        lower = skill_content.lower()
+        assert "without" in lower or "no config" in lower or "if no config" in lower
+
+    def test_yaml_format(self, skill_content):
+        lower = skill_content.lower()
+        assert "yaml" in lower
+
+    def test_experts_count_configurable(self, skill_content):
+        lower = skill_content.lower()
+        assert "experts" in lower and "count" in lower
+
+    def test_personas_count_configurable(self, skill_content):
+        lower = skill_content.lower()
+        assert "personas" in lower and "count" in lower
+
+    def test_web_research_config(self, skill_content):
+        assert "web_research" in skill_content or "web research" in skill_content.lower()
+
+    def test_deep_report_config(self, skill_content):
+        assert "deep_report" in skill_content or "deep report" in skill_content.lower()
+
+    def test_additional_dimensions_config(self, skill_content):
+        lower = skill_content.lower()
+        assert "additional" in lower and "dimension" in lower
+
+    def test_required_questions_config(self, skill_content):
+        assert "required_questions" in skill_content or "required questions" in skill_content.lower()
+
+    def test_must_include_personas_config(self, skill_content):
+        assert "must_include" in skill_content or "must include" in skill_content.lower()
+
+
+class TestInlineFlags:
+    """Verify the skill parses inline flags from $ARGUMENTS."""
+
+    def test_experts_flag(self, skill_content):
+        assert "--experts" in skill_content
+
+    def test_deep_flag(self, skill_content):
+        assert "--deep" in skill_content
+
+    def test_web_search_flag(self, skill_content):
+        assert "--web-search" in skill_content
+
+    def test_no_experts_flag(self, skill_content):
+        assert "--no-experts" in skill_content
+
+    def test_personas_flag(self, skill_content):
+        assert "--personas" in skill_content
+
+    def test_questions_flag(self, skill_content):
+        assert "--questions" in skill_content
+
+    def test_config_flag(self, skill_content):
+        assert "--config" in skill_content
+
+    def test_full_flag(self, skill_content):
+        assert "--full" in skill_content
+
+    def test_flags_override_config(self, skill_content):
+        lower = skill_content.lower()
+        assert "override" in lower
+
+
+class TestWebResearch:
+    """Verify the conditional web research step."""
+
+    def test_web_research_step_exists(self, skill_content):
+        lower = skill_content.lower()
+        assert "web research" in lower
+
+    def test_web_research_is_conditional(self, skill_content):
+        lower = skill_content.lower()
+        assert "skip" in lower and "web research" in lower
+
+    def test_searches_competitors(self, skill_content):
+        lower = skill_content.lower()
+        assert "competitor" in lower and "search" in lower
+
+    def test_market_context_brief(self, skill_content):
+        lower = skill_content.lower()
+        assert "market context brief" in lower
+
+    def test_websearch_tool_mentioned(self, skill_content):
+        assert "WebSearch" in skill_content
+
+
+class TestDeepReport:
+    """Verify the conditional deep research report."""
+
+    def test_deep_report_step_exists(self, skill_content):
+        lower = skill_content.lower()
+        assert "deep research report" in lower or "deep-dive" in lower
+
+    def test_deep_report_is_conditional(self, skill_content):
+        lower = skill_content.lower()
+        assert "skip" in lower and "deep" in lower
+
+    def test_market_sizing_section(self, skill_content):
+        lower = skill_content.lower()
+        assert "market sizing" in lower or "tam" in lower
+
+    def test_competitive_landscape_section(self, skill_content):
+        lower = skill_content.lower()
+        assert "competitive landscape" in lower
+
+    def test_regulatory_section(self, skill_content):
+        lower = skill_content.lower()
+        assert "regulatory" in lower
+
+    def test_technical_feasibility_section(self, skill_content):
+        lower = skill_content.lower()
+        assert "technical feasibility" in lower
+
+    def test_go_to_market_section(self, skill_content):
+        lower = skill_content.lower()
+        assert "go-to-market" in lower or "go to market" in lower
+
+    def test_key_experiments_section(self, skill_content):
+        lower = skill_content.lower()
+        assert "experiment" in lower
+
+    def test_separate_output_file(self, skill_content):
+        assert "deep-research.md" in skill_content
+
+
+class TestExternalFiles:
+    """Verify support for optional external files."""
+
+    def test_experts_md_support(self, skill_content):
+        assert "experts.md" in skill_content
+
+    def test_questions_md_support(self, skill_content):
+        assert "questions.md" in skill_content
+
+    def test_context_md_support(self, skill_content):
+        assert "context.md" in skill_content
+
+    def test_files_are_optional(self, skill_content):
+        lower = skill_content.lower()
+        assert "optional" in lower
+
+    def test_checks_file_existence(self, skill_content):
+        assert "test -f" in skill_content
 
 
 class TestInputHandling:

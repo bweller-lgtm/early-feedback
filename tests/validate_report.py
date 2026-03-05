@@ -83,17 +83,17 @@ def validate(report_path: Path) -> list[str]:
         issues.append("MISSING: Expert Assessments section")
     expert_headings = re.findall(r"###\s+E\d+:", text)
     if len(expert_headings) < 3:
-        issues.append(f"INCOMPLETE: Found {len(expert_headings)}/3 expert assessments")
+        issues.append(f"INCOMPLETE: Found {len(expert_headings)} expert assessments (default 3, configurable via evaluate.config.yaml)")
 
     # --- Interview transcripts ---
     persona_count = count_persona_summaries(text)
     if persona_count < 8:
-        issues.append(f"INCOMPLETE: Found {persona_count}/8 persona interview transcripts")
+        issues.append(f"INCOMPLETE: Found {persona_count} persona interview transcripts (default 8, configurable via evaluate.config.yaml)")
 
     # --- Q&A exchanges ---
     qa_count = len(re.findall(r"\*\*Q:", text))
     if qa_count < 16:
-        issues.append(f"INCOMPLETE: Found {qa_count} Q&A exchanges (expected 16+ for 8 personas)")
+        issues.append(f"INCOMPLETE: Found {qa_count} Q&A exchanges (expected 2+ per persona, default 8 personas)")
 
     # --- Recommendations ---
     rec_items = re.findall(r"^\s*\d+\.\s+", text, re.MULTILINE)

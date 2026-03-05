@@ -1,31 +1,31 @@
 <p align="center"><strong>Simulated Innovation</strong></p>
 
-<h3 align="center">Brutally honest startup evaluation. 8 synthetic personas. 3 domain experts. No sugar-coating.</h3>
+<h3 align="center">Brutally honest startup evaluation. Synthetic personas. Domain experts. No sugar-coating.</h3>
 
 <p align="center">
-Feed it a pitch deck, a README, or a one-liner. It interviews 8 synthetic users, assembles a domain expert panel, and produces a scored evaluation report that tells you what's actually wrong — not what you want to hear.
+Feed it a pitch deck, a README, or a one-liner. It interviews synthetic users, assembles a domain expert panel, and produces a scored evaluation report that tells you what's actually wrong — not what you want to hear.
 </p>
 
 ---
 
 ## Demo: Real Evaluation Output
 
-An organizational cognition platform was evaluated. Here's what came back:
+A freelancer invoicing tool with cash flow prediction was evaluated. Here's what came back:
 
-**Score: 6.4/10 — "Promising but needs refinement"**
+**Score: 6.8/10 — "Promising but needs refinement"**
 
 ```
 | Dimension              | Score |
 |------------------------|-------|
-| Problem Validity       | 8.5   |
-| Solution Fit           | 5.5   |
-| Market Demand          | 8.0   |
-| Competitive Position   | 8.5   |
+| Problem Validity       | 7.5   |
+| Solution Fit           | 7.0   |
+| Market Demand          | 6.5   |
+| Competitive Position   | 5.5   |
 | Monetization Potential | 7.5   |
-| Execution Feasibility  | 3.0   |  ← product-specific critical dimension
+| Data Cold-Start Risk   | 4.0   |  ← product-specific critical dimension
 ```
 
-The standard 5 dimensions averaged 7.6 — the strategic logic is genuinely strong. But the tool identified **execution feasibility** as the critical dimension for this specific product and scored it 3.0, bringing the honest overall to 6.4.
+The standard 5 dimensions averaged 6.8 — solid fundamentals. But the tool identified **data cold-start risk** as the critical dimension: the flagship cash flow prediction feature needs 6-12 months of billing history to work, which new users don't have on day one.
 
 **Organic persona sentiment** (not forced):
 
@@ -33,37 +33,28 @@ The standard 5 dimensions averaged 7.6 — the strategic logic is genuinely stro
 3 enthusiastic · 3 neutral · 2 skeptic
 ```
 
-Both enthusiastic enterprise buyers conditioned their interest on seeing a team and funding: *"We don't buy critical infrastructure from one-person companies."*
+Price sensitivity split sharply by segment: solo freelancers capped at $15/month while small agency owners said $50/month without blinking. *"I've tried 4 invoicing apps and always come back to my spreadsheet."* — David, Freelance Developer (Skeptic)
 
-**Expert disagreement surfaced real tension:**
+**Experts assessed independently, revealing natural tension:**
 
-> Dr. Webb (systems architect): "Build the coordination layer first — prove multi-role workflows beat single-agent before optimizing cost."
+> Elena Vasquez (SaaS monetization): "The cash flow prediction is the only feature that justifies a paid product. You're building a cash flow tool with invoicing attached, not the reverse."
 >
-> Priya Chandrasekaran (GTM strategist): "Find a paying customer first and build backward from their pain. The coordination layer in the abstract is a research project."
-
-**The viability gate didn't trigger** — 3 enthusiasts prevented early termination — but the report led with execution risk in the executive summary.
+> Michael Torres (freelancer ecosystem): "Prioritize Toggl and Harvest integrations above everything. 'Automatic invoices from time tracking' is a one-sentence pitch that sells itself."
 
 <details>
 <summary><strong>Sample persona interview excerpt</strong></summary>
 
-> **Q: What's your experience with multi-agent AI systems today?**
+> **Q: Walk me through how you currently handle invoicing.**
 >
-> A: We tried CrewAI for our data pipeline — had a "data engineer" agent, a "data analyst" agent, and a "reporter" agent. In production, the agents would hallucinate context about each other's work. The data analyst would reference tables the data engineer hadn't actually created. There's no real shared state — it's just prompt-passing with role labels. We scrapped it after 3 months.
+> A: I track my hours in Toggl, then at the end of each month I manually copy everything into a Google Sheets template. Then I export it as a PDF and email it. It takes about 3 hours every month and I always dread it.
 >
-> — Raj Patel, Head of AI/ML, growth-stage fintech (Enthusiastic)
+> — Sarah Chen, Freelance UI Designer (Enthusiastic)
 
-> **Q: What's your reaction to an organizational cognition layer for AI agents?**
+> **Q: What do you think of InvoiceFlow?**
 >
-> A: The concept is academically interesting but I've heard this pitch before with different branding. "Shared context across agents" — that's what MCP claims to do. What specifically does organizational cognition provide that these don't?
+> A: Another invoicing SaaS? I've tried FreshBooks, Wave, Bonsai, and HoneyBook. Always come back to my spreadsheet. They all add complexity I don't need.
 >
-> — Sarah Okonkwo, Enterprise Architect, Fortune 500 (Skeptic)
-
-</details>
-
-<details>
-<summary><strong>Full sample report</strong></summary>
-
-See [outputs/2026-03-04-flux-organizational-cognition.md](outputs/2026-03-04-flux-organizational-cognition.md) for the complete 600+ line evaluation with all 8 persona transcripts, 3 expert assessments, 6 follow-up exchanges, and scored recommendations.
+> — David Park, Freelance Developer (Skeptic)
 
 </details>
 
@@ -75,7 +66,7 @@ Most AI evaluation tools produce encouraging summaries. This one is designed to 
 
 - **Organic sentiment** — personas react honestly. A terrible idea gets mostly skeptics. No forced "2 enthusiasts, 3 neutral" distribution.
 - **Viability gate** — if interviews reveal universal rejection, the tool produces a short critical-issues report and stops. No 5,000-word report for a dead idea.
-- **Experts must disagree** — where their domains conflict (e.g., product-first vs. sales-first), the tension is preserved, not smoothed over.
+- **Independent expert assessments** — experts evaluate through their own lens, not each other's. When their conclusions naturally conflict, the tension is preserved.
 - **Information gaps flagged** — missing info is called out as gaps, not filled with optimistic assumptions.
 - **Full scoring scale** — scores of 2 or 9 are valid when evidence supports them. No gravitating to the safe 5-7 range.
 - **Product-specific critical dimensions** — the tool identifies the 1-2 dimensions that matter most for *this specific product* and calls them out.
@@ -108,7 +99,7 @@ Then in Claude Code:
 /evaluate --experts 5 --personas 10 pitch-deck.pdf
 ```
 
-That's it. No API keys, no dependencies, no setup.
+That's it. No extra API keys, no dependencies, no setup beyond Claude Code itself.
 
 ---
 
@@ -125,7 +116,7 @@ Each evaluation report includes:
 1. **Executive Summary** — leads with the most important truth, positive or negative
 2. **Scored Breakdown** — 5 standard dimensions + product-specific dimensions, full 1-10 scale
 3. **Key Findings** — top 5, each with supporting quotes from interviews
-4. **Expert Assessments** — domain expert syntheses including where they disagree
+4. **Expert Assessments** — independent domain expert syntheses with natural tensions preserved
 5. **Audience Segmentation** — who this is for and who it isn't
 6. **Risks and Concerns** — including information gaps from the input
 7. **Recommendations** — prioritized, actionable
@@ -168,9 +159,9 @@ Create an optional `evaluate.config.yaml` for persistent settings:
 experts:
   count: 4
   custom:
-    - name: "Dan Hockenmeier"
+    - name: "Jane Smith"
       domain: "Marketplace strategy & network effects"
-      credentials: "Former VP Growth at Faire"
+      credentials: "Former VP Growth at a top marketplace startup"
 
 personas:
   count: 10
@@ -198,7 +189,7 @@ Optional external files (`experts.md`, `questions.md`, `context.md`) provide det
 ## How It Works
 
 <details>
-<summary><strong>Up to 9 steps, with conditional branches</strong></summary>
+<summary><strong>8 steps + conditional branches</strong></summary>
 
 ```
 Preamble   Parse flags, load config, load external files
@@ -249,7 +240,7 @@ python -m pytest tests/ -v
 Validate any generated report:
 
 ```bash
-python tests/validate_report.py outputs/2026-03-04-my-product.md
+python tests/validate_report.py outputs/YYYY-MM-DD-my-product.md
 ```
 
 ---

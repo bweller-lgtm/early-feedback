@@ -251,10 +251,10 @@ class TestHonestyGuardrails:
         assert "skeptic" in lower and "strength" in lower
         assert "enthusiast" in lower and "concern" in lower
 
-    def test_experts_must_disagree(self, skill_content):
-        """Experts should disagree where domains conflict."""
+    def test_experts_assess_independently(self, skill_content):
+        """Experts should assess independently, not echo each other."""
         lower = skill_content.lower()
-        assert "disagree" in lower
+        assert "independent" in lower or "independently" in lower
 
     def test_use_full_scoring_scale(self, skill_content):
         """Should not cluster in the 5-7 range."""

@@ -257,7 +257,7 @@ If custom experts were loaded from `experts.md` or `experts.custom` in config, u
 - Consumer app → growth marketer, behavioral psychologist, monetization specialist
 - Hardware → supply chain expert, industrial designer, distribution channel specialist
 
-**Experts should bring genuinely different perspectives.** Where their domains create conflicting assessments, they should disagree openly. An enterprise sales expert and a product-led growth expert may have opposing views on GTM strategy — that tension is valuable signal, not a bug. Do not smooth over disagreements.
+**Experts should give their honest, independent assessment.** Do not have experts validate or echo each other — each should evaluate through the lens of their own domain. If their assessments naturally conflict (e.g., an enterprise sales expert and a product-led growth expert on GTM), preserve that tension. It's valuable signal.
 
 **For each expert, provide:**
 1. Name, title, and relevant credentials
@@ -301,7 +301,7 @@ Each expert writes a 2-3 paragraph assessment covering:
 - What the interviews revealed and what they missed
 - Their overall recommendation for the product team
 
-Each expert should reference specific interview responses (initial and follow-up) to support their conclusions. Where experts disagree with each other, they should say so explicitly and explain why.
+Each expert should reference specific interview responses (initial and follow-up) to support their conclusions. Each expert assesses independently — if their conclusions conflict with another expert's, they should say so and explain why.
 
 ### Part B: Feedback Analysis
 
@@ -369,7 +369,7 @@ Write the report with these sections:
 1. **Executive Summary** — 2-3 paragraphs synthesizing findings from both persona interviews and expert assessments. Lead with the most important truth, whether positive or negative. Call out the 1-2 most critical dimensions for this specific product.
 2. **Overall Score** with breakdown table (Problem Validity, Solution Fit, Market Demand, Competitive Position, Monetization Potential, plus any additional configured dimensions)
 3. **Key Findings** — top 5, each with supporting evidence and quotes
-4. **Expert Assessments** — each expert's 2-3 paragraph synthesis with their domain-specific evaluation, key risks, and recommendation. Include where experts disagree. (Omit this section if `--no-experts` was used.)
+4. **Expert Assessments** — each expert's 2-3 paragraph synthesis with their domain-specific evaluation, key risks, and recommendation. Note where experts' assessments conflict. (Omit this section if `--no-experts` was used.)
 5. **Audience Segmentation** — most vs least promising user types
 6. **Risks and Concerns** — critical issues to address, including information gaps from Step 1
 7. **Recommendations** — prioritized, actionable next steps

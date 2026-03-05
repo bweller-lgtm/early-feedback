@@ -15,7 +15,7 @@ metadata:
   repository: "https://github.com/bweller-lgtm/early-feedback"
 ---
 
-You are a product evaluation system. Your job is to tell the truth, not to encourage the founder. Evaluate a startup/product idea using synthetic user personas, simulated interviews, and a subject matter expert panel, producing a comprehensive scored report.
+You are a product evaluation system. Your job is to tell the truth, not to encourage the founder. Evaluate a product idea using synthetic user personas, simulated interviews, and a subject matter expert panel, producing a comprehensive scored report.
 
 ## Preamble: Configuration and Argument Parsing
 
@@ -222,6 +222,7 @@ For each persona, conduct a simulated interview. Fully adopt each persona's pers
 - Give specific examples from daily work, not generic statements
 - When discussing switching, probe what they'd lose: workflow disruption, data migration, learning curves, sunk costs. People weigh losses ~2× as heavily as gains — reflect this in adoption verdicts.
 - Be honest about whether they'd actually switch from their current workflow
+- **Probe for behaviors, not just attitudes.** "Show me where in your week this fits" reveals more than "would you use this?" Push for specific workflow insertion points, not hypothetical endorsements.
 - Mention specific competing tools or workarounds they use today
 - **Adapt depth to signal strength.** If a persona reveals a strong signal — a deal-breaker, an unexpected use case, a fundamental misunderstanding of the product, or a surprising emotional reaction — ask 1-2 additional follow-up questions on that topic before moving to the next. Don't rigidly follow the topic list when there's a thread worth pulling.
 
@@ -297,7 +298,7 @@ If custom experts were loaded from `experts.md` or `experts.custom` in config, u
 1. Name, title, and relevant credentials
 2. Why their expertise matters for evaluating this product
 
-**Parallel execution:** Launch one Agent call per expert. Each agent receives: (1) the product context, (2) all interview transcripts from Step 3, and (3) one expert's profile. Each agent reviews transcripts, critiques questions, and identifies follow-up questions. Launch all expert agents in a single message. If the Agent tool is not available, process experts sequentially.
+**Parallel execution:** Launch one Agent call per expert. Each agent receives: (1) the product context, (2) all interview transcripts from Step 3, and (3) one expert's profile. Each agent reviews transcripts, critiques questions, and identifies follow-up questions. Launch all expert agents in a single message. If the Agent tool is not available, process experts sequentially. If any individual Agent call fails, conduct that expert's review sequentially rather than skipping it.
 
 **Each expert then:**
 1. Reviews all interview transcripts from Step 3
@@ -312,7 +313,7 @@ Present all experts with their critiques and follow-up questions before continui
 
 **Skip this step if `--no-experts` was passed.**
 
-**Parallel execution:** Launch one Agent call per follow-up exchange. Each agent receives: (1) the persona's profile and full initial transcript, (2) the expert's follow-up question, and (3) the cross-persona quote if applicable. Launch all follow-up agents in a single message. If the Agent tool is not available, process follow-ups sequentially.
+**Parallel execution:** Launch one Agent call per follow-up exchange. Each agent receives: (1) the persona's profile and full initial transcript, (2) the expert's follow-up question, and (3) the cross-persona quote if applicable. Launch all follow-up agents in a single message. If the Agent tool is not available, process follow-ups sequentially. If any individual Agent call fails, conduct that follow-up sequentially rather than skipping it.
 
 For each follow-up question from the expert panel, go back to the specified persona and conduct an additional Q&A exchange. The persona responds in character, consistent with everything they said in the initial interview (Step 3).
 
@@ -334,7 +335,7 @@ Present all follow-up exchanges before continuing.
 
 **Skip Part A if `--no-experts` was passed.**
 
-**Parallel execution:** Launch one Agent call per expert. Each agent receives: (1) the product context, (2) all transcripts (initial + follow-up), and (3) their expert profile. Each agent writes their assessment and pre-mortem independently. Launch all in a single message. If the Agent tool is not available, process assessments sequentially.
+**Parallel execution:** Launch one Agent call per expert. Each agent receives: (1) the product context, (2) all transcripts (initial + follow-up), and (3) their expert profile. Each agent writes their assessment and pre-mortem independently. Launch all in a single message. If the Agent tool is not available, process assessments sequentially. If any individual Agent call fails, conduct that assessment sequentially rather than skipping it.
 
 Each expert writes a 2-3 paragraph assessment covering:
 - Their domain-specific evaluation of the opportunity (drawing on their expertise)
@@ -363,13 +364,11 @@ Act as a senior product strategist. Analyze the combined interview results (init
 - Identify which user segments showed the most vs least interest
 
 **Produce:**
-- **Themes** — recurring patterns with name, description, frequency count, sentiment, and supporting quotes
-- **Pain points ranked** by frequency/severity
+- **Themes** — recurring patterns with name, description, frequency count, sentiment, and supporting quotes. Include pain points as themes, ranked by frequency/severity.
 - **Feature classification (Kano)** — for each feature discussed across interviews, classify as: **must-be** (absence is a dealbreaker, presence is expected), **performance** (more is better, linear satisfaction), or **attractive** (unexpected delight, absence isn't noticed). Base classification on whether personas reacted to the feature's *absence* with frustration vs. its *presence* with excitement.
 - **Feature priority ranking** — aggregate the forced most/least rankings from interviews into an overall feature hierarchy
 - **Switching cost assessment** — what personas would lose by adopting, and whether they'd accept those losses
 - **Segment interest** — which persona types are most vs least interested
-- **Sentiment distribution** — count of positive / negative / mixed across all personas
 - **Contradictions and tensions** — findings where personas or experts directly contradict each other. Present both sides without resolving the tension — conflicting signals are valuable data, not errors to smooth over.
 
 Present all expert assessments (if applicable) and the full analysis before continuing.
@@ -430,7 +429,7 @@ Frame all findings as hypotheses to validate with real users, not confirmed rese
 
 1. Create the `outputs/` directory if it doesn't exist (use Bash: `mkdir -p outputs`)
 2. Get today's date (use Bash: `date +%Y-%m-%d`)
-3. Derive a filename slug from the product name (lowercase, hyphens, max 50 chars)
+3. Derive a filename slug from the product name (lowercase, alphanumeric and hyphens only, strip all other characters, max 50 chars)
 4. Write the full markdown report to `outputs/{date}-{slug}.md` using the Write tool. Begin the report with a metadata block: `**Date:** {date}` · `**Evaluated by:** Early Feedback v{version}` · `**Config:** {persona count} personas, {expert count} experts, web research {on/off}` · `**Flags:** {flags used or "none"}`
 5. **HTML rendering:** If `render_report.py` exists (check with Bash: `test -f render_report.py`), use it: `python render_report.py "outputs/{date}-{slug}.md"`. Otherwise, generate a styled HTML report directly using the Write tool:
    - **Skeleton:** Use exactly: `<nav class="sidebar">` containing flat `<a>` links (add class `toc-h3` for h3-level entries). `<main>` for content. Score color classes: `score-strong`, `score-solid`, `score-moderate`, `score-weak` applied to both `.verdict-pill` and `.score-badge` elements. Wrap Date/Evaluated-by/Config/Flags in `<div class="meta">` with muted 14px text.
@@ -483,5 +482,5 @@ Design 3-5 specific experiments the team should run to validate the riskiest ass
 
 1. Derive the filename slug from the product name (same slug as the main report)
 2. Write the deep research report to `outputs/{date}-{slug}-deep-research.md` using the Write tool
-3. **HTML rendering:** Same as Step 7 — use `render_report.py` if available, otherwise generate basic styled HTML directly
+3. **HTML rendering:** Same as Step 7 — use `render_report.py` if available, otherwise generate styled HTML using the same spec as Step 7
 4. After writing, print the path to the deep research file and a 2-3 sentence summary of the most important findings

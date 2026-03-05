@@ -25,6 +25,10 @@ class TestSkillFileExists:
             "(keeps /evaluate working in Claude Code without plugin install)"
         )
 
+    def test_progress_indicator(self, skill_content):
+        lower = skill_content.lower()
+        assert "progress" in lower and "step" in lower
+
 
 class TestSkillMdFrontmatter:
     """Verify SKILL.md has valid Agent Skills frontmatter."""
@@ -563,8 +567,8 @@ class TestInlineFlags:
     def test_deep_flag(self, skill_content):
         assert "--deep" in skill_content
 
-    def test_web_search_flag(self, skill_content):
-        assert "--web-search" in skill_content
+    def test_no_web_search_flag(self, skill_content):
+        assert "--no-web-search" in skill_content
 
     def test_no_experts_flag(self, skill_content):
         assert "--no-experts" in skill_content
@@ -607,6 +611,10 @@ class TestWebResearch:
 
     def test_websearch_tool_mentioned(self, skill_content):
         assert "WebSearch" in skill_content
+
+    def test_web_research_on_by_default(self, skill_content):
+        """Web research should be enabled by default."""
+        assert "web_research`: true" in skill_content or "runs by default" in skill_content.lower()
 
 
 class TestDeepReport:

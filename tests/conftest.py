@@ -1,4 +1,4 @@
-"""Shared fixtures for SimulatedInnovation tests."""
+"""Shared fixtures for Early Feedback tests."""
 
 import pytest
 from pathlib import Path

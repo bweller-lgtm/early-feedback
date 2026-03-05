@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="assets/logo_icon.png" alt="Simulated Innovation" width="200">
+  <img src="assets/logo_icon.png" alt="Early Feedback" width="200">
 </p>
 
-<h1 align="center">Simulated Innovation</h1>
+<h1 align="center">Early Feedback</h1>
 
 <p align="center"><strong>Brutally honest product evaluation. No sugar-coating.</strong></p>
 
@@ -50,8 +50,8 @@ Independent expert assessments. When their conclusions conflict, the tension is 
 ### Claude Code (full features)
 
 ```bash
-git clone https://github.com/bweller-lgtm/SimulatedInnovation
-cd SimulatedInnovation
+git clone https://github.com/bweller-lgtm/early-feedback
+cd early-feedback
 ```
 
 ```
@@ -69,6 +69,12 @@ Handles file/directory scanning, config files, web research, and automatic repor
 ### Claude Desktop / API (core evaluation)
 
 Copy the contents of `evaluate/SKILL.md` (everything after the frontmatter) into any Claude conversation. Replace `$ARGUMENTS` with your idea description. You get the full evaluation pipeline — personas, interviews, expert panel, scored report — without the file I/O features.
+
+### What to expect
+
+A full evaluation takes **10-20 minutes** and uses **~100K output tokens**. The pipeline runs 8 steps — web research, persona generation, interviews, viability check, expert panel, follow-ups, synthesis, and report writing. Each step prints progress as it goes, so you'll see work happening throughout.
+
+Use `--no-web-search --no-experts` for a faster ~5 minute evaluation with personas and interviews only.
 
 ---
 
@@ -100,7 +106,7 @@ Each report includes: Executive Summary, Scored Breakdown, Key Findings with quo
 
 | Flag | What it does |
 |---|---|
-| `--web-search` | Research real competitors, market data, user complaints before generating personas |
+| `--no-web-search` | Skip web research (on by default) |
 | `--deep` | Produce a deep research report (TAM/SAM, competitive landscape, GTM playbook, experiments) |
 | `--experts N` | Set expert count (1-5, default 3) |
 | `--personas N` | Set persona count (4-12, default 8) |

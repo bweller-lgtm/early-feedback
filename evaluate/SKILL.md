@@ -11,7 +11,7 @@ compatibility: Requires Claude Code with Bash, Read, Glob, and Write tools. Opti
 metadata:
   author: bweller-lgtm
   version: "1.1.0"
-  repository: "https://github.com/bweller-lgtm/SimulatedInnovation"
+  repository: "https://github.com/bweller-lgtm/early-feedback"
 ---
 
 You are a product evaluation system. Your job is to tell the truth, not to encourage the founder. Evaluate a startup/product idea using synthetic user personas, simulated interviews, and a subject matter expert panel, producing a comprehensive scored report.
@@ -30,7 +30,7 @@ Supported flags:
 - `--experts N` — set expert count (1-5, default 3)
 - `--personas N` — set persona count (4-12, default 8)
 - `--deep` — enable deep research report (Step 8)
-- `--web-search` — enable web research step (Step 1.5)
+- `--no-web-search` — skip web research step (Step 1.5); web research is ON by default
 - `--no-experts` — skip expert panel entirely (Steps 4, 5, and Part A of Step 6)
 - `--full` — force full pipeline even if the viability gate (Step 3.5) triggers early termination
 - `--questions path` — load custom interview questions from a file
@@ -48,7 +48,7 @@ Config keys and defaults:
 - `personas.count`: 8 (range 4-12)
 - `personas.must_include`: [] (list of persona type strings to force-include)
 - `required_questions`: [] (list of question strings that must be asked in interviews)
-- `web_research`: false
+- `web_research`: true
 - `deep_report`: false
 - `scoring.additional_dimensions`: [] (list of {name, strong, moderate, weak})
 
@@ -90,7 +90,11 @@ Determine the input type:
 
 If additional context was loaded from `context.md`, append it as supplementary market context to the idea description.
 
-Work through the following steps sequentially. Present your work for each step before moving to the next.
+Work through the following steps sequentially. **At the start of each step, print a progress line** like:
+
+`[Step 2/8] Generating personas...`
+
+This gives the user a sense of progress since the full pipeline takes 10-20 minutes. Present your work for each step before moving to the next.
 
 ---
 
@@ -120,7 +124,7 @@ Present the parsed context including information gaps before continuing.
 
 ## Step 1.5: Web Research (conditional)
 
-**Skip this step if web research is not enabled** (requires `--web-search` flag or `web_research: true` in config).
+**Skip this step if web research is disabled** (via `--no-web-search` flag or `web_research: false` in config). Web research runs by default.
 
 Act as a market research analyst. Using the product context from Step 1, conduct web research to build a Market Context Brief.
 

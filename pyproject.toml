@@ -1,6 +1,6 @@
 [project]
 name = "early-feedback"
-version = "1.3.0"
+version = "1.4.0"
 description = "Get honest feedback on product ideas before you build them"
 requires-python = ">=3.11"
 

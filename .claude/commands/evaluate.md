@@ -168,6 +168,8 @@ After defining each persona's background and current workflow, simulate their ho
 - Include at least 2 early/late majority pragmatists (Rogers' diffusion) — they require proven ROI, peer references, and low switching friction before adopting. Not every persona should be an innovator or early adopter.
 - If `personas.must_include` is configured, include those specific persona types
 
+**Diversity validation:** After generating all personas, verify coverage across at least 3 distinct segments of: role/function, company size, and tech sophistication. If personas cluster in one segment (e.g., all mid-size SaaS companies, all technical users), replace the least differentiated persona to fill the gap.
+
 If web research was performed in Step 1.5, use real competitor names, realistic pricing anchors, and actual pain points discovered in the research when building personas.
 
 **For each persona provide:**
@@ -197,6 +199,7 @@ For each persona, conduct a simulated interview. Fully adopt each persona's pers
 - When discussing switching, probe what they'd lose: workflow disruption, data migration, learning curves, sunk costs. People weigh losses ~2× as heavily as gains — reflect this in adoption verdicts.
 - Be honest about whether they'd actually switch from their current workflow
 - Mention specific competing tools or workarounds they use today
+- **Adapt depth to signal strength.** If a persona reveals a strong signal — a deal-breaker, an unexpected use case, a fundamental misunderstanding of the product, or a surprising emotional reaction — ask 1-2 additional follow-up questions on that topic before moving to the next. Don't rigidly follow the topic list when there's a thread worth pulling.
 
 **Each interview covers 6-7 exchanges on these core topics:**
 1. Current workflow and biggest frustrations
@@ -223,6 +226,7 @@ If `required_questions` are set (from config, questions.md, or --questions file)
 - Overall sentiment: positive, negative, or mixed
 - Would adopt: yes, no, or unclear
 - 3-5 key direct quotes (the most notable things they said)
+- Internal consistency check: verify the persona's responses are consistent with their stated background, role, current workflow, and status quo attachment. If you notice a contradiction (e.g., a budget-constrained persona casually accepting premium pricing), flag it in the transcript summary.
 
 Present all full interview transcripts before continuing.
 
@@ -292,6 +296,7 @@ For each follow-up question from the expert panel, go back to the specified pers
 - Attribute each follow-up to the expert who requested it
 - The persona's response should be informed by their Round 1 answers
 - Experts may push personas harder than the initial interviewer — probe deeper on evasive answers, challenge assumptions, test edge cases
+- **Cross-persona reactions:** For 2-3 follow-ups, share a notable quote from a different persona (one with opposing sentiment) and ask "How would you respond to someone who said [quote]?" This surfaces social dynamics and tests whether positions hold under challenge.
 
 Write out each follow-up exchange as a Q&A dialogue, organized by expert.
 
@@ -339,6 +344,7 @@ Act as a senior product strategist. Analyze the combined interview results (init
 - **Switching cost assessment** — what personas would lose by adopting, and whether they'd accept those losses
 - **Segment interest** — which persona types are most vs least interested
 - **Sentiment distribution** — count of positive / negative / mixed across all personas
+- **Contradictions and tensions** — findings where personas or experts directly contradict each other. Present both sides without resolving the tension — conflicting signals are valuable data, not errors to smooth over.
 
 Present all expert assessments (if applicable) and the full analysis before continuing.
 

@@ -149,6 +149,11 @@ class TestStep2Personas:
     def test_diversity_company_size(self, skill_content):
         assert "company" in skill_content.lower()
 
+    def test_persona_diversity_validation(self, skill_content):
+        """Should verify segment coverage after generating personas."""
+        lower = skill_content.lower()
+        assert "diversity validation" in lower or ("verify" in lower and "coverage" in lower)
+
 
 class TestStep2OrganicSentiment:
     """Verify persona sentiment is organic, not forced."""
@@ -224,6 +229,16 @@ class TestStep3Interviews:
     def test_loss_framing(self, skill_content):
         lower = skill_content.lower()
         assert "loss" in lower or "weigh losses" in lower or "sunk cost" in lower
+
+    def test_interview_depth_adaptation(self, skill_content):
+        """Should adapt interview depth based on signal strength."""
+        lower = skill_content.lower()
+        assert ("signal" in lower and "follow-up" in lower) or "adapt depth" in lower
+
+    def test_persona_consistency_check(self, skill_content):
+        """Should check persona responses for internal consistency."""
+        lower = skill_content.lower()
+        assert "consistency" in lower and ("check" in lower or "verify" in lower)
 
 
 class TestAdaptiveInterviews:
@@ -405,6 +420,11 @@ class TestStep5FollowupInterviews:
         lower = skill_content.lower()
         assert "attribute" in lower or "expert who" in lower
 
+    def test_cross_persona_reaction(self, skill_content):
+        """Should share quotes from other personas and ask for reactions."""
+        lower = skill_content.lower()
+        assert "cross-persona" in lower or ("quote" in lower and "different persona" in lower)
+
 
 class TestStep6ExpertSynthesis:
     """Verify expert synthesis and feedback analysis methodology."""
@@ -454,6 +474,11 @@ class TestStep6Analysis:
 
     def test_sentiment_distribution(self, skill_content):
         assert "sentiment distribution" in skill_content.lower()
+
+    def test_contradiction_surfacing(self, skill_content):
+        """Should explicitly surface contradictions between personas/experts."""
+        lower = skill_content.lower()
+        assert "contradiction" in lower and ("tension" in lower or "conflict" in lower)
 
     def test_surprising_findings(self, skill_content):
         assert "surprising" in skill_content.lower()
@@ -768,3 +793,17 @@ class TestInputHandling:
         assert "directory" in lower or "folder" in lower
         assert "file" in lower
         assert "inline" in lower or "text" in lower
+
+
+class TestResearchMethodologyV2:
+    """Verify v1.4 methodology additions from competitive research."""
+
+    def test_diversity_validation_after_generation(self, skill_content):
+        """Personas should be validated for segment coverage after generation."""
+        lower = skill_content.lower()
+        assert "segment" in lower and ("coverage" in lower or "cluster" in lower)
+
+    def test_cross_persona_social_dynamics(self, skill_content):
+        """Follow-ups should include cross-persona reactions for social dynamics."""
+        lower = skill_content.lower()
+        assert "how would you respond" in lower or "cross-persona" in lower

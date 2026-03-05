@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: transparent;
+    font-family: 'Inter', -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .card {
+    background: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    padding: 32px 36px;
+    margin: 40px;
+    width: 720px;
+    color: #e6edf3;
+  }
+
+  .card h2 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: #f0f6fc;
+  }
+
+  .card .subtitle {
+    font-size: 13px;
+    color: #8b949e;
+    margin-bottom: 24px;
+  }
+
+  /* --- Score card --- */
+  .score-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 20px;
+  }
+  .score-header .overall {
+    font-size: 32px;
+    font-weight: 700;
+    color: #f0f6fc;
+  }
+  .score-header .overall span {
+    font-size: 16px;
+    color: #8b949e;
+    font-weight: 400;
+  }
+  .score-header .verdict {
+    font-size: 14px;
+    color: #d29922;
+    font-weight: 500;
+    background: rgba(210, 153, 34, 0.1);
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  .dim-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #21262d;
+  }
+  .dim-row:last-child { border-bottom: none; }
+  .dim-name {
+    flex: 1;
+    font-size: 14px;
+    color: #c9d1d9;
+  }
+  .dim-bar-wrap {
+    width: 200px;
+    height: 8px;
+    background: #21262d;
+    border-radius: 4px;
+    margin: 0 16px;
+    overflow: hidden;
+  }
+  .dim-bar {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s;
+  }
+  .dim-score {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+    width: 32px;
+    text-align: right;
+  }
+  .dim-note {
+    font-size: 11px;
+    color: #8b949e;
+    margin-left: 8px;
+    white-space: nowrap;
+  }
+
+  .color-green { background: #3fb950; }
+  .color-lime { background: #56d364; }
+  .color-yellow { background: #d29922; }
+  .color-orange { background: #db6d28; }
+  .color-red { background: #f85149; }
+  .text-green { color: #3fb950; }
+  .text-lime { color: #56d364; }
+  .text-yellow { color: #d29922; }
+  .text-orange { color: #db6d28; }
+  .text-red { color: #f85149; }
+
+  .sentiment-row {
+    display: flex;
+    gap: 16px;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #21262d;
+  }
+  .sentiment-chip {
+    font-size: 13px;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-weight: 500;
+  }
+  .chip-enthusiastic { background: rgba(63, 185, 80, 0.15); color: #3fb950; }
+  .chip-neutral { background: rgba(139, 148, 158, 0.15); color: #8b949e; }
+  .chip-skeptic { background: rgba(248, 81, 73, 0.15); color: #f85149; }
+
+  /* --- Interview card --- */
+  .qa-block {
+    margin-bottom: 20px;
+  }
+  .qa-block:last-of-type { margin-bottom: 0; }
+  .qa-question {
+    font-size: 13px;
+    font-weight: 600;
+    color: #8b949e;
+    margin-bottom: 8px;
+    letter-spacing: 0.02em;
+  }
+  .qa-answer {
+    font-size: 14px;
+    color: #c9d1d9;
+    line-height: 1.65;
+    padding-left: 16px;
+    border-left: 3px solid #30363d;
+  }
+  .qa-attribution {
+    margin-top: 12px;
+    font-size: 13px;
+    color: #8b949e;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .qa-attribution .persona-tag {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 500;
+  }
+
+  .divider {
+    border: none;
+    border-top: 1px solid #21262d;
+    margin: 20px 0;
+  }
+
+  /* --- Experts card --- */
+  .expert-block {
+    margin-bottom: 24px;
+  }
+  .expert-block:last-of-type { margin-bottom: 0; }
+  .expert-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #f0f6fc;
+    margin-bottom: 2px;
+  }
+  .expert-title {
+    font-size: 12px;
+    color: #8b949e;
+    margin-bottom: 10px;
+  }
+  .expert-quote {
+    font-size: 14px;
+    color: #c9d1d9;
+    line-height: 1.65;
+    padding-left: 16px;
+    font-style: italic;
+  }
+  .expert-quote.border-blue { border-left: 3px solid #58a6ff; }
+  .expert-quote.border-purple { border-left: 3px solid #bc8cff; }
+  .expert-quote.border-orange { border-left: 3px solid #db6d28; }
+
+  .tension-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    color: #d29922;
+    background: rgba(210, 153, 34, 0.12);
+    padding: 3px 10px;
+    border-radius: 10px;
+    margin-top: 16px;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+
+<!-- === SCORE CARD === -->
+<div class="card" id="score-card">
+  <div class="score-header">
+    <div class="overall">6.8 <span>/ 10</span></div>
+    <div class="verdict">Promising but needs refinement</div>
+  </div>
+
+  <div class="dim-row">
+    <div class="dim-name">Problem Validity</div>
+    <div class="dim-bar-wrap"><div class="dim-bar color-green" style="width:75%"></div></div>
+    <div class="dim-score text-green">7.5</div>
+  </div>
+  <div class="dim-row">
+    <div class="dim-name">Solution Fit</div>
+    <div class="dim-bar-wrap"><div class="dim-bar color-lime" style="width:70%"></div></div>
+    <div class="dim-score text-lime">7.0</div>
+  </div>
+  <div class="dim-row">
+    <div class="dim-name">Market Demand</div>
+    <div class="dim-bar-wrap"><div class="dim-bar color-yellow" style="width:65%"></div></div>
+    <div class="dim-score text-yellow">6.5</div>
+  </div>
+  <div class="dim-row">
+    <div class="dim-name">Competitive Position</div>
+    <div class="dim-bar-wrap"><div class="dim-bar color-yellow" style="width:55%"></div></div>
+    <div class="dim-score text-yellow">5.5</div>
+  </div>
+  <div class="dim-row">
+    <div class="dim-name">Monetization Potential</div>
+    <div class="dim-bar-wrap"><div class="dim-bar color-green" style="width:75%"></div></div>
+    <div class="dim-score text-green">7.5</div>
+  </div>
+  <div class="dim-row">
+    <div class="dim-name">Data Cold-Start Risk</div>
+    <div class="dim-bar-wrap"><div class="dim-bar color-red" style="width:40%"></div></div>
+    <div class="dim-score text-red">4.0</div>
+    <div class="dim-note">critical dimension</div>
+  </div>
+
+  <div class="sentiment-row">
+    <div class="sentiment-chip chip-enthusiastic">3 enthusiastic</div>
+    <div class="sentiment-chip chip-neutral">3 neutral</div>
+    <div class="sentiment-chip chip-skeptic">2 skeptic</div>
+  </div>
+</div>
+
+<!-- === INTERVIEW CARD === -->
+<div class="card" id="interview-card">
+  <h2>Persona Interviews</h2>
+  <div class="subtitle">Full Q&A transcripts with synthetic personas</div>
+
+  <div class="qa-block">
+    <div class="qa-question">Q: Walk me through how you currently handle invoicing.</div>
+    <div class="qa-answer">
+      I track my hours in Toggl, then at the end of each month I manually copy everything
+      into a Google Sheets template. Then I export it as a PDF and email it. It takes about
+      3 hours every month and I always dread it.
+    </div>
+    <div class="qa-attribution">
+      Sarah Chen, Freelance UI Designer
+      <span class="persona-tag chip-enthusiastic">Enthusiastic</span>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="qa-block">
+    <div class="qa-question">Q: What do you think of InvoiceFlow?</div>
+    <div class="qa-answer">
+      Another invoicing SaaS? I've tried FreshBooks, Wave, Bonsai, and HoneyBook.
+      Always come back to my spreadsheet. They all add complexity I don't need.
+    </div>
+    <div class="qa-attribution">
+      David Park, Freelance Developer
+      <span class="persona-tag chip-skeptic">Skeptic</span>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="qa-block">
+    <div class="qa-question">Q: What would you pay for this?</div>
+    <div class="qa-answer">
+      I'm paying $22/month for FreshBooks now. I'd pay the same or slightly more for
+      something better. But I need an import tool for my FreshBooks data so I don't lose
+      3 years of history.
+    </div>
+    <div class="qa-attribution">
+      Rachel Kim, Freelance Brand Strategist
+      <span class="persona-tag chip-enthusiastic">Enthusiastic</span>
+    </div>
+  </div>
+</div>
+
+<!-- === EXPERTS CARD === -->
+<div class="card" id="experts-card">
+  <h2>Expert Panel</h2>
+  <div class="subtitle">Independent domain assessments</div>
+
+  <div class="expert-block">
+    <div class="expert-name">Elena Vasquez</div>
+    <div class="expert-title">SaaS Monetization Strategist</div>
+    <div class="expert-quote border-blue">
+      "The cash flow prediction is the only feature that justifies a paid product in a market
+      dominated by free alternatives. You're building a cash flow tool with invoicing attached,
+      not the reverse. Ship with a free tier for basic invoicing and a $19/month Pro tier that
+      unlocks predictions."
+    </div>
+  </div>
+
+  <div class="expert-block">
+    <div class="expert-name">Michael Torres</div>
+    <div class="expert-title">Freelancer Ecosystem Expert</div>
+    <div class="expert-quote border-purple">
+      "Prioritize Toggl and Harvest integrations above everything else. 'Automatic invoices
+      from time tracking' is a one-sentence pitch that sells itself. The prediction feature
+      retains users; the integration acquires them."
+    </div>
+  </div>
+
+  <div class="expert-block">
+    <div class="expert-name">Priya Chandrasekaran</div>
+    <div class="expert-title">Fintech Product Leader</div>
+    <div class="expert-quote border-orange">
+      "The cash flow prediction has a data cold-start problem nobody addressed. Accurate
+      90-day predictions require 6-12 months of billing history. New users won't have that
+      on day one -- the flagship feature won't work for the people you're trying to impress."
+    </div>
+  </div>
+
+  <div class="tension-badge">Natural tension: acquire via integrations vs. retain via predictions vs. cold-start blocks both</div>
+</div>
+
+</body>
+</html>

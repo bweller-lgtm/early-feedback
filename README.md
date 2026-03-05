@@ -12,51 +12,23 @@ Feed it a pitch deck, a README, or a one-liner. It interviews synthetic users, a
 
 A freelancer invoicing tool with cash flow prediction was evaluated. Here's what came back:
 
-**Score: 6.8/10 — "Promising but needs refinement"**
+<p align="center">
+  <img src="assets/demo_scores.png" alt="Scored evaluation with color-coded dimension breakdown" width="720">
+</p>
 
-```
-| Dimension              | Score |
-|------------------------|-------|
-| Problem Validity       | 7.5   |
-| Solution Fit           | 7.0   |
-| Market Demand          | 6.5   |
-| Competitive Position   | 5.5   |
-| Monetization Potential | 7.5   |
-| Data Cold-Start Risk   | 4.0   |  ← product-specific critical dimension
-```
+The tool identified **data cold-start risk** as the critical dimension for this specific product: the flagship cash flow prediction needs 6-12 months of billing history, which new users don't have on day one. Price sensitivity split sharply — solo freelancers capped at $15/month while agency owners said $50/month without blinking.
 
-The standard 5 dimensions averaged 6.8 — solid fundamentals. But the tool identified **data cold-start risk** as the critical dimension: the flagship cash flow prediction feature needs 6-12 months of billing history to work, which new users don't have on day one.
+<p align="center">
+  <img src="assets/demo_interview.png" alt="Full Q&A persona interview transcripts" width="720">
+</p>
 
-**Organic persona sentiment** (not forced):
+Each persona gets a full interview — not a summary. Enthusiasts voice real concerns. Skeptics acknowledge genuine strengths. The tool captures what people would actually say, not what you want to hear.
 
-```
-3 enthusiastic · 3 neutral · 2 skeptic
-```
+<p align="center">
+  <img src="assets/demo_experts.png" alt="Expert panel with independent domain assessments" width="720">
+</p>
 
-Price sensitivity split sharply by segment: solo freelancers capped at $15/month while small agency owners said $50/month without blinking. *"I've tried 4 invoicing apps and always come back to my spreadsheet."* — David, Freelance Developer (Skeptic)
-
-**Experts assessed independently, revealing natural tension:**
-
-> Elena Vasquez (SaaS monetization): "The cash flow prediction is the only feature that justifies a paid product. You're building a cash flow tool with invoicing attached, not the reverse."
->
-> Michael Torres (freelancer ecosystem): "Prioritize Toggl and Harvest integrations above everything. 'Automatic invoices from time tracking' is a one-sentence pitch that sells itself."
-
-<details>
-<summary><strong>Sample persona interview excerpt</strong></summary>
-
-> **Q: Walk me through how you currently handle invoicing.**
->
-> A: I track my hours in Toggl, then at the end of each month I manually copy everything into a Google Sheets template. Then I export it as a PDF and email it. It takes about 3 hours every month and I always dread it.
->
-> — Sarah Chen, Freelance UI Designer (Enthusiastic)
-
-> **Q: What do you think of InvoiceFlow?**
->
-> A: Another invoicing SaaS? I've tried FreshBooks, Wave, Bonsai, and HoneyBook. Always come back to my spreadsheet. They all add complexity I don't need.
->
-> — David Park, Freelance Developer (Skeptic)
-
-</details>
+Experts assess independently. Here, one says the prediction feature is the only thing worth paying for, another says integrations matter more for acquisition, and a third flags that the prediction feature won't even work for new users. That tension is the signal.
 
 ---
 

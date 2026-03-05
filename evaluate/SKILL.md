@@ -1,16 +1,16 @@
 ---
 name: evaluate
 description: >-
-  Brutally honest startup and product evaluation using synthetic user personas,
-  simulated interviews, and a domain expert panel. Produces a comprehensive scored
+  Get honest feedback on a product idea before you build it. Interviews synthetic
+  user personas, assembles a domain expert panel, and produces a scored evaluation
   report with full interview transcripts, expert assessments, and actionable
-  recommendations. Use when the user wants to evaluate a startup idea, pitch deck,
-  product concept, or project. Supports inline text, file paths, and directory scanning.
+  recommendations. Use when the user wants to evaluate a product idea, pitch deck,
+  or project. Supports inline text, file paths, and directory scanning.
 license: MIT
 compatibility: Requires Claude Code with Bash, Read, Glob, and Write tools. Optional WebSearch for market research.
 metadata:
   author: bweller-lgtm
-  version: "1.1.0"
+  version: "1.2.0"
   repository: "https://github.com/bweller-lgtm/early-feedback"
 ---
 

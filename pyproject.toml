@@ -1,7 +1,7 @@
 [project]
-name = "simulated-innovation"
-version = "1.1.0"
-description = "Evaluate project ideas using synthetic user personas and simulated interviews"
+name = "early-feedback"
+version = "1.2.0"
+description = "Get honest feedback on product ideas before you build them"
 requires-python = ">=3.11"
 
 [tool.pytest.ini_options]

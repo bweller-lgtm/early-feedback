@@ -4,11 +4,11 @@
 
 <h1 align="center">Early Feedback</h1>
 
-<p align="center"><strong>Brutally honest product evaluation. No sugar-coating.</strong></p>
+<p align="center"><strong>Get honest feedback on your product idea before you build it.</strong></p>
 
-Feed it a pitch deck, a README, or a one-liner. It interviews synthetic users, assembles a domain expert panel, and produces a scored evaluation report that tells you what's actually wrong — not what you want to hear.
+Describe your idea, drop in a pitch deck, or point it at a codebase. Early Feedback interviews synthetic users, assembles a domain expert panel, and tells you what's actually wrong — before you spend months finding out the hard way.
 
-We fed it "a freelancer invoicing tool with cash flow prediction." It came back 6.8/10 and flagged a cold-start problem nobody mentioned — the flagship feature needs 6 months of data to work, which new users don't have.
+We fed it "a freelancer invoicing tool with cash flow prediction." It came back 6.8/10 and flagged a cold-start problem nobody mentioned — the flagship feature needs 6 months of data to work, which new users don't have. That's the kind of thing a friend with domain expertise would catch over coffee. Now you can get it on demand.
 
 ---
 
@@ -34,14 +34,16 @@ Independent expert assessments. When their conclusions conflict, the tension is 
 
 ---
 
-## What Makes This Different
+## Why Early Feedback
 
-- **Organic sentiment** — personas react honestly. A terrible idea gets mostly skeptics. No forced distribution.
-- **Viability gate** — universal rejection produces a short critical-issues report and stops. No 5,000-word report for a dead idea.
-- **Independent experts** — each evaluates through their own lens. Natural conflicts are signal, not noise.
-- **Information gaps flagged** — missing info is called out, not filled with optimistic assumptions.
+Most feedback on early-stage ideas is either too polite or too shallow. Friends say "sounds cool." Investors ask about traction you don't have yet. Early Feedback gives you the conversation you *need* — honest, specific, and grounded in how real users would actually react.
+
+- **Honest reactions** — personas respond based on the idea's actual merit. A bad idea gets mostly skeptics. No forced positivity.
+- **Kills bad ideas fast** — universal rejection produces a short critical-issues report and stops. No 5,000-word report for a dead idea.
+- **Independent experts** — each evaluates through their own lens. When they disagree, that tension is signal.
+- **Gaps called out** — missing info is flagged, not filled with optimistic assumptions.
 - **Full scoring scale** — scores of 2 or 9 are valid when evidence supports them.
-- **Product-specific critical dimensions** — identifies what matters most for *this specific product*.
+- **Product-specific dimensions** — identifies what matters most for *this specific product*.
 
 ---
 
@@ -61,7 +63,7 @@ cd early-feedback
 
 /evaluate ../my-startup/
 
-/evaluate --web-search --deep ../my-startup/
+/evaluate --deep ../my-startup/
 ```
 
 Handles file/directory scanning, config files, web research, and automatic report saving.
@@ -87,7 +89,7 @@ Use `--no-web-search --no-experts` for a faster ~5 minute evaluation with person
 | **A codebase** | `/evaluate ./my-project/` | Reads all project files and synthesizes the idea |
 | **A doc** | `/evaluate idea.docx` | Supports `.pdf`, `.docx`, `.pptx`, `.xlsx`, code files |
 
-Add `--web-search` to research real competitors first. Add `--deep` for a full research report with TAM/SAM, GTM playbook, and experiments to run.
+Web research runs automatically. Add `--deep` for a full research report with TAM/SAM, GTM playbook, and experiments to run.
 
 ---
 
@@ -179,7 +181,7 @@ Optional external files (`experts.md`, `questions.md`, `context.md`) provide det
 ```
 Preamble   Parse flags, load config, load external files
 Step 1     Parse product context (flag gaps, don't infer)
-Step 1.5   Web research (conditional: --web-search)
+Step 1.5   Web research (on by default, skip with --no-web-search)
 Step 2     Generate personas with organic sentiment
 Step 3     Simulate interviews (core + product-type-specific questions)
 Step 3.5   Viability gate — kill bad ideas early (unless --full)
@@ -197,7 +199,7 @@ Step 8     Deep research report (conditional: --deep)
 ## Tests
 
 <details>
-<summary><strong>187 tests</strong> — scoring, honesty guardrails, organic sentiment, viability gate, expert panel, configuration, report structure</summary>
+<summary><strong>189 tests</strong> — scoring, honesty guardrails, organic sentiment, viability gate, expert panel, configuration, report structure</summary>
 
 ```bash
 pip install pytest

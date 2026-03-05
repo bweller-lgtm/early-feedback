@@ -4,7 +4,7 @@
 
 <h1 align="center">Simulated Innovation</h1>
 
-<p align="center"><strong>Brutally honest startup evaluation. No sugar-coating.</strong></p>
+<p align="center"><strong>Brutally honest product evaluation. No sugar-coating.</strong></p>
 
 Feed it a pitch deck, a README, or a one-liner. It interviews synthetic users, assembles a domain expert panel, and produces a scored evaluation report that tells you what's actually wrong — not what you want to hear.
 
@@ -47,14 +47,12 @@ Independent expert assessments. When their conclusions conflict, the tension is 
 
 ## Quick Start
 
-**Requirements:** [Claude Code](https://docs.anthropic.com/en/docs/claude-code) with an active subscription.
+### Claude Code (full features)
 
 ```bash
 git clone https://github.com/bweller-lgtm/SimulatedInnovation
 cd SimulatedInnovation
 ```
-
-Then in Claude Code:
 
 ```
 /evaluate A marketplace for freelance data scientists with built-in project scoping and escrow
@@ -66,7 +64,11 @@ Then in Claude Code:
 /evaluate --web-search --deep ../my-startup/
 ```
 
-That's it. No extra API keys, no dependencies, no setup beyond Claude Code itself.
+Handles file/directory scanning, config files, web research, and automatic report saving.
+
+### Claude Desktop / API (core evaluation)
+
+Copy the contents of `evaluate/SKILL.md` (everything after the frontmatter) into any Claude conversation. Replace `$ARGUMENTS` with your idea description. You get the full evaluation pipeline — personas, interviews, expert panel, scored report — without the file I/O features.
 
 ---
 

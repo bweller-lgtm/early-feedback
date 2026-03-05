@@ -891,3 +891,30 @@ class TestBenchmarkComparison:
     def test_switching_costs_vs_benchmark(self, skill_content):
         lower = skill_content.lower()
         assert "benchmark" in lower and "switch" in lower
+
+
+class TestSafetyAndQuality:
+    """Verify safety, privacy, and quality guardrails."""
+
+    def test_safety_path_quoting(self, skill_content):
+        """Skill should instruct quoting file paths in Bash commands."""
+        lower = skill_content.lower()
+        assert "quote" in lower and "path" in lower and "bash" in lower
+
+    def test_privacy_web_search(self, skill_content):
+        """Skill should warn against leaking confidential content in web searches."""
+        lower = skill_content.lower()
+        assert "proprietary" in lower or "confidential" in lower
+        assert "websearch" in lower or "web search" in lower
+
+    def test_input_budget_limits(self, skill_content):
+        """Skill should specify file/character limits for directory reading."""
+        lower = skill_content.lower()
+        assert "40 files" in lower or "40" in lower
+        assert "250k" in lower or "250,000" in lower
+
+    def test_scoring_formula_defined(self, skill_content):
+        """Skill should define how the overall score is computed."""
+        lower = skill_content.lower()
+        assert "arithmetic mean" in lower or "average" in lower
+        assert "penalty" in lower or "critical" in lower

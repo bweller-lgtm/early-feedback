@@ -42,6 +42,12 @@ If no config file exists, use all defaults. The skill works perfectly without a 
 
 **Inline flags always override config file values.**
 
+### Safety and Privacy
+
+- **Path handling:** Always quote file paths in Bash commands (e.g., `test -d "$path"`) to prevent injection from paths containing spaces or special characters.
+- **Web search privacy:** Never include proprietary text, code, or confidential product details verbatim in WebSearch queries. Use generic market/competitor terms (e.g., search for "freelancer invoicing tools market size" not the user's full product description or code). If the user is evaluating confidential material, warn them that web research is on by default and suggest `--no-web-search`.
+- **Confidential inputs:** When reading files from a directory or file path, do not echo proprietary content into Bash commands or search queries. Keep file contents within Read/Write tool boundaries.
+
 ### External File Loading
 
 Check for these optional files in the current directory (use Bash: `test -f`):
@@ -74,7 +80,7 @@ Determine the input type:
 
 1. **Directory path** — If the input is a directory (check with Bash: `test -d`), use a two-pass strategy:
 
-   **Pass 1: Glob scan.** Use Glob to find files matching `**/*.md`, `**/*.txt`, `**/*.py`, `**/*.json`, `**/*.yaml`, `**/*.yml`, `**/*.toml`, `**/*.html`, `**/*.css`, `**/*.js`, `**/*.ts`, `**/*.tsx`, `**/*.jsx`, `**/*.pdf`, `**/*.docx`, `**/*.pptx`, `**/*.xlsx`. If results are clean (no dependency directories dominating), read all discovered files.
+   **Pass 1: Glob scan.** Use Glob to find files matching `**/*.md`, `**/*.txt`, `**/*.py`, `**/*.json`, `**/*.yaml`, `**/*.yml`, `**/*.toml`, `**/*.html`, `**/*.css`, `**/*.js`, `**/*.ts`, `**/*.tsx`, `**/*.jsx`, `**/*.pdf`, `**/*.docx`, `**/*.pptx`, `**/*.xlsx`. If results are clean (no dependency directories dominating), read all discovered files. **Hard budget:** If the clean scan returns more than 40 files or the cumulative content exceeds 250K characters, switch to Pass 2 (prioritized reading) instead of reading everything.
 
    **Pass 2: Prioritized fallback.** If Glob results are polluted by `node_modules/`, `.git/`, `__pycache__/`, `vendor/`, `dist/`, `build/`, or other dependency/build directories (visible as hundreds of matches from those paths), do NOT attempt to read everything. Instead, read files in this priority order until you have enough context to understand the product:
    1. Top-level `README.md` (or `README.*`)
@@ -144,6 +150,8 @@ Use the WebSearch tool for each query. Synthesize the findings into a **Market C
 - **Market Size Signals** — any data points on market size, growth, or trends
 - **User Pain Signals** — real complaints found online about current solutions
 - **Regulatory Notes** — any compliance or legal considerations discovered
+
+**Evidence discipline:** Include source URLs for factual claims (pricing, funding rounds, market size) where the WebSearch tool provides them. In the brief, label each claim as *sourced* (has a URL or named reference) or *estimated* (inferred or synthesized without a direct source). Carry these labels into the deep research report (Step 8) if applicable.
 
 This brief will inform persona generation (Step 2) and interviews (Step 3). Present the full brief before continuing.
 
@@ -386,6 +394,8 @@ If `scoring.additional_dimensions` is configured, add those dimensions to the ta
 
 **Use the full scale.** A score of 2 or 9 is valid when evidence supports it.
 
+**Overall score computation:** Calculate the arithmetic mean of all dimension scores (the 5 standard dimensions plus any configured additional dimensions). If a dimension identified as critical for this product scores below 4, apply a −0.5 penalty to the overall score. The overall score cannot drop below the lowest individual dimension score.
+
 In addition to scoring, identify the 1-2 dimensions most critical for THIS specific product and call them out in the executive summary. Examples: "For a marketplace, the chicken-and-egg problem is the dominant risk — it matters more than any individual score." "For this regulated fintech product, compliance feasibility is the gating factor."
 
 ### Verdict Thresholds
@@ -418,7 +428,8 @@ Frame all findings as hypotheses to validate with real users, not confirmed rese
 2. Get today's date (use Bash: `date +%Y-%m-%d`)
 3. Derive a filename slug from the product name (lowercase, hyphens, max 50 chars)
 4. Write the full markdown report to `outputs/{date}-{slug}.md` using the Write tool
-5. After writing, print a summary to the conversation:
+5. If `render_report.py` exists in the project root (check with Bash: `test -f render_report.py`), render an HTML version: `python render_report.py "outputs/{date}-{slug}.md"`
+6. After writing, print a summary to the conversation:
    - Verdict and overall score
    - Score breakdown (all dimensions)
    - Executive summary (2-3 paragraphs)
@@ -458,4 +469,5 @@ Design 3-5 specific experiments the team should run to validate the riskiest ass
 
 1. Derive the filename slug from the product name (same slug as the main report)
 2. Write the deep research report to `outputs/{date}-{slug}-deep-research.md` using the Write tool
-3. After writing, print the path to the deep research file and a 2-3 sentence summary of the most important findings
+3. If `render_report.py` exists, render an HTML version: `python render_report.py "outputs/{date}-{slug}-deep-research.md"`
+4. After writing, print the path to the deep research file and a 2-3 sentence summary of the most important findings

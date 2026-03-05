@@ -85,10 +85,23 @@ def make_transcripts_collapsible(html):
             continue
 
         if in_appendix and re.match(r"<h3", part):
+            next_content = parts[i + 1] if i + 1 < len(parts) else ""
+
+            # Only wrap persona transcripts (P1:, P2:, ...) and follow-ups
+            is_transcript = re.search(
+                r"[PE]\d+:|[Ff]ollow-up", next_content
+            )
+
+            if not is_transcript:
+                # Non-transcript h3 — close any open details, render normally
+                if in_persona:
+                    result.append("</div></details>")
+                    in_persona = False
+                result.append(part)
+                continue
+
             if in_persona:
                 result.append("</div></details>")
-
-            next_content = parts[i + 1] if i + 1 < len(parts) else ""
 
             # Split at </h3> — heading goes in summary, rest in body
             h3_close = next_content.find("</h3>")
@@ -244,6 +257,9 @@ details.transcript summary::before {{
   font-weight: 400; color: var(--muted); font-size: 16px;
 }}
 details.transcript[open] summary::before {{ content: '-'; }}
+details.transcript summary h3 {{
+  display: inline; margin: 0; font-size: 15px;
+}}
 details.transcript .transcript-body {{ padding: 16px; }}
 .meta {{ color: var(--muted); font-size: 13px; margin-bottom: 24px; }}
 @media (max-width: 900px) {{

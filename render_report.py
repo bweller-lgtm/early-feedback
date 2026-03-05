@@ -18,7 +18,12 @@ def extract_score_info(md_text):
     overall_score = float(overall.group(1)) if overall else None
 
     verdict = re.search(r"\*\*Verdict:\s*(.+?)\*\*", md_text)
-    verdict_text = verdict.group(1) if verdict else ""
+    if not verdict:
+        # Fallback: verdict inline on the heading line after "— "
+        verdict = re.search(
+            r"##\s+Overall Score:\s*[\d.]+\s*/\s*10\s*[—–-]+\s*(.+)", md_text
+        )
+    verdict_text = verdict.group(1).strip() if verdict else ""
 
     dimensions = []
     for m in re.finditer(
@@ -317,8 +322,11 @@ def render(md_path):
             f' <span class="out-of">/ 10</span></div>'
             f'<div class="verdict {color}">{verdict_text}</div>'
         )
+        # Match either "## Overall Score" + separate "**Verdict:**" paragraph,
+        # or "## Overall Score: X / 10 — verdict" with verdict inline
         body_html = re.sub(
-            r"<h2[^>]*>Overall Score.*?</h2>\s*<p><strong>Verdict:.*?</strong></p>",
+            r"<h2[^>]*>Overall Score.*?</h2>"
+            r"(\s*<p><strong>Verdict:.*?</strong></p>)?",
             f'<h2 id="overall-score">Overall Score</h2>{score_html}',
             body_html,
             flags=re.DOTALL,
@@ -328,11 +336,20 @@ def render(md_path):
     for name, score, _ in dimensions:
         color = score_color(score)
         score_str = str(int(score)) if score == int(score) else str(score)
-        body_html = body_html.replace(
+        # Try both "7" and "7.0" forms since markdown may preserve either
+        replaced = body_html.replace(
             f"<td>{score_str}</td>",
             f'<td><span class="dim-score {color}">{score_str}</span></td>',
             1,
         )
+        if replaced == body_html and score == int(score):
+            float_str = f"{score:.1f}"
+            replaced = body_html.replace(
+                f"<td>{float_str}</td>",
+                f'<td><span class="dim-score {color}">{float_str}</span></td>',
+                1,
+            )
+        body_html = replaced
 
     # Make interview transcripts collapsible
     body_html = make_transcripts_collapsible(body_html)

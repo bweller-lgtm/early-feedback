@@ -10,7 +10,7 @@ license: MIT
 compatibility: Requires Claude Code with Bash, Read, Glob, and Write tools. Optional WebSearch for market research.
 metadata:
   author: bweller-lgtm
-  version: "1.6.0"
+  version: "1.7.0"
   repository: "https://github.com/bweller-lgtm/early-feedback"
 ---
 
@@ -102,7 +102,7 @@ Determine the input type:
    Stop reading when you can confidently describe: what the product does, who it's for, how it works, and what it's built with. You do not need to read every file — prioritize breadth of understanding over exhaustive coverage.
 
    Synthesize the idea description from everything read — READMEs, docs, code, configs, pitch decks, presentations, spreadsheets, etc.
-2. **File path** — If the input contains a `.` followed by a file extension (e.g., `.txt`, `.md`, `.pdf`, `.docx`, `.pptx`, `.xlsx`, `.py`, `.js`, `.ts`, `.rb`, `.go`, `.rs`, `.java`, `.sh`, `.toml`, `.json`, `.yaml`, `.html`, `.css`, etc.) or contains `/` or `\`, treat it as a file path and read it using the Read tool.
+2. **File path** — If the input contains a `.` followed by a file extension or contains `/` or `\`, treat it as a file path and read it using the Read tool. Supported: `.txt`, `.md`, `.pdf`, `.docx`, `.pptx`, `.xlsx`, `.py`, `.js`, `.ts`, `.rb`, `.go`, `.rs`, `.java`, `.sh`, `.toml`, `.json`, `.yaml`, `.html`, `.css`, and **images** (`.png`, `.jpg`, `.jpeg`, `.gif`, `.webp`) — the Read tool renders images visually. For images (wireframes, mockups, screenshots, diagrams), describe what you see and incorporate it into the product context.
 3. **Inline text** — Otherwise, treat the input as the idea description directly.
 
 If additional context was loaded from `context.md`, append it as supplementary market context to the idea description.
@@ -128,7 +128,8 @@ Act as a product analyst. Extract structured information from the idea descripti
 - **Core features** — key capabilities
 - **Key benefits** — primary value propositions
 - **Competitors** — existing solutions or workarounds users have today
-- **Differentiation** — how this differs from alternatives
+- **Primary benchmark** — the single most relevant alternative. If the user specified one (e.g., "X vs Y"), use it. Otherwise, identify the strongest competitor or, if no direct competitor exists, label the benchmark as "status quo / do nothing." This benchmark anchors all comparison questions in interviews.
+- **Differentiation** — how this differs from the benchmark specifically
 - **Assumptions to test** — key hypotheses needing validation
 
 Be specific and actionable. If information is not explicitly stated, flag it as unknown or underspecified. Do not fill gaps with optimistic assumptions — note what's missing honestly.
@@ -228,8 +229,8 @@ For each persona, conduct a simulated interview. Fully adopt each persona's pers
 2. Initial reaction to the product concept
 3. Feature priority (forced rank) — of the product's core features, which ONE matters most and which matters least? Do not let personas rate everything as important.
 4. Concerns or objections
-5. Switching costs — what they'd have to give up, what they've invested in current tools, worst case if this product fails them
-6. What would need to be true to switch
+5. Switching costs vs. the benchmark — what they'd have to give up, what they've invested in the benchmark solution, worst case if this product fails them. If the benchmark is "do nothing," probe whether the pain is severe enough to justify adopting any solution at all.
+6. What would need to be true to switch from the benchmark
 7. Overall recommendation
 
 **Additionally, ask 2-3 questions specific to this product's type and context** from Step 1. Adapt these to the domain:

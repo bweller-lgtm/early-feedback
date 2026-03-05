@@ -846,3 +846,32 @@ class TestResearchGrounding:
         """Should flag gaps between research data and generated personas."""
         lower = skill_content.lower()
         assert "gap" in lower and "research" in lower
+
+
+class TestImageInput:
+    """Verify image file support as input."""
+
+    def test_image_extensions_supported(self, skill_content):
+        lower = skill_content.lower()
+        assert ".png" in lower and ".jpg" in lower
+
+    def test_image_description_instruction(self, skill_content):
+        lower = skill_content.lower()
+        assert "wireframe" in lower or "mockup" in lower or "screenshot" in lower
+
+
+class TestBenchmarkComparison:
+    """Verify explicit benchmark comparison mode."""
+
+    def test_primary_benchmark_field(self, skill_content):
+        lower = skill_content.lower()
+        assert "primary benchmark" in lower or "benchmark" in lower
+
+    def test_status_quo_do_nothing(self, skill_content):
+        """Should handle 'do nothing' as a valid benchmark."""
+        lower = skill_content.lower()
+        assert "do nothing" in lower or "status quo" in lower
+
+    def test_switching_costs_vs_benchmark(self, skill_content):
+        lower = skill_content.lower()
+        assert "benchmark" in lower and "switch" in lower

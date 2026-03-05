@@ -5,7 +5,7 @@
 <h1 align="center">Early Feedback</h1>
 
 <p align="center"><strong>Get honest feedback on your product idea before you build it.</strong></p>
-<p align="center"><code>v1.6.0</code> · 212 tests · MIT License</p>
+<p align="center"><code>v1.7.0</code> · 217 tests · MIT License</p>
 
 Describe your idea, drop in a pitch deck, or point it at a codebase. Early Feedback interviews synthetic users, assembles a domain expert panel, and tells you what's actually wrong — before you spend months finding out the hard way.
 
@@ -97,6 +97,7 @@ Use `--no-web-search --no-experts` for a faster ~5 minute evaluation with person
 | **A pitch deck** | `/evaluate pitch-deck.pdf` | Reads the PDF and evaluates |
 | **A codebase** | `/evaluate ./my-project/` | Reads all project files and synthesizes the idea |
 | **A doc** | `/evaluate idea.docx` | Supports `.pdf`, `.docx`, `.pptx`, `.xlsx`, code files |
+| **A mockup** | `/evaluate wireframe.png` | Reads images (`.png`, `.jpg`) — wireframes, screenshots, diagrams |
 
 Web research runs automatically. Add `--deep` for a full research report with TAM/SAM, GTM playbook, and experiments to run.
 

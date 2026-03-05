@@ -84,7 +84,21 @@ The user's input (after flag extraction from the Preamble) is the idea descripti
 
 Determine the input type:
 
-1. **Directory path** — If the input is a directory (check with Bash: `test -d`), use Glob to list all files in it, excluding `node_modules/`, `.git/`, `__pycache__/`, and other dependency/build directories. Target these extensions: `**/*.md`, `**/*.txt`, `**/*.py`, `**/*.json`, `**/*.yaml`, `**/*.yml`, `**/*.toml`, `**/*.html`, `**/*.css`, `**/*.js`, `**/*.ts`, `**/*.tsx`, `**/*.jsx`, `**/*.pdf`, `**/*.docx`, `**/*.pptx`, `**/*.xlsx`. Read all discovered files using the Read tool (it supports PDFs and images natively). Synthesize the idea description from everything found — READMEs, docs, code, configs, pitch decks, presentations, spreadsheets, etc.
+1. **Directory path** — If the input is a directory (check with Bash: `test -d`), use a two-pass strategy:
+
+   **Pass 1: Glob scan.** Use Glob to find files matching `**/*.md`, `**/*.txt`, `**/*.py`, `**/*.json`, `**/*.yaml`, `**/*.yml`, `**/*.toml`, `**/*.html`, `**/*.css`, `**/*.js`, `**/*.ts`, `**/*.tsx`, `**/*.jsx`, `**/*.pdf`, `**/*.docx`, `**/*.pptx`, `**/*.xlsx`. If results are clean (no dependency directories dominating), read all discovered files.
+
+   **Pass 2: Prioritized fallback.** If Glob results are polluted by `node_modules/`, `.git/`, `__pycache__/`, `vendor/`, `dist/`, `build/`, or other dependency/build directories (visible as hundreds of matches from those paths), do NOT attempt to read everything. Instead, read files in this priority order until you have enough context to understand the product:
+   1. Top-level `README.md` (or `README.*`)
+   2. Top-level config files: `pyproject.toml`, `package.json`, `Cargo.toml`, `go.mod`, `*.yaml`, `*.yml`, `*.toml`
+   3. Top-level docs: `CLAUDE.md`, `SETUP*.md`, `ARCHITECTURE*.md`, `CONTRIBUTING.md`, any `docs/*.md`
+   4. Top-level pitch/business files: `*.pdf`, `*.docx`, `*.pptx`, `*.xlsx`
+   5. Source entry points: top-level `*.py`, `src/*/__ init__.py`, `src/index.*`, `app.*`, `main.*`
+   6. Additional source files from the primary `src/` or package directory (skip tests, migrations, generated code)
+
+   Stop reading when you can confidently describe: what the product does, who it's for, how it works, and what it's built with. You do not need to read every file — prioritize breadth of understanding over exhaustive coverage.
+
+   Synthesize the idea description from everything read — READMEs, docs, code, configs, pitch decks, presentations, spreadsheets, etc.
 2. **File path** — If the input contains a `.` followed by a file extension (e.g., `.txt`, `.md`, `.pdf`, `.docx`, `.pptx`, `.xlsx`, `.py`, `.js`, `.ts`, `.rb`, `.go`, `.rs`, `.java`, `.sh`, `.toml`, `.json`, `.yaml`, `.html`, `.css`, etc.) or contains `/` or `\`, treat it as a file path and read it using the Read tool.
 3. **Inline text** — Otherwise, treat the input as the idea description directly.
 

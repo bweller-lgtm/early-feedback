@@ -61,16 +61,10 @@ Check for these optional files in the current directory (use Bash: `test -f`):
 ### Resolved Configuration
 
 After parsing, state the resolved configuration:
-- Persona count: {N}
-- Expert count: {N} (or "skipped" if --no-experts)
-- Web research: enabled/disabled
-- Deep report: enabled/disabled
-- Full pipeline forced: yes/no
-- Custom questions: {count} loaded / none
-- Custom experts: {count} loaded / none
-- Additional context: loaded / none
-- Additional scoring dimensions: {list} / none
-- Research data: loaded ({N} files) / none
+- Persona count: {N} | Expert count: {N} (or "skipped") | Web research: enabled/disabled
+- Deep report: enabled/disabled | Full pipeline forced: yes/no
+- Custom questions: {count}/none | Custom experts: {count}/none
+- Additional context: loaded/none | Scoring dimensions: {list}/none | Research data: loaded ({N} files)/none
 
 ---
 
@@ -100,11 +94,7 @@ Determine the input type:
 
 If additional context was loaded from `context.md`, append it as supplementary market context to the idea description.
 
-Work through the following steps sequentially. **At the start of each step, print a progress line** like:
-
-`[Step 2/8] Generating personas...`
-
-This gives the user a sense of progress since the full pipeline takes 10-20 minutes. Present your work for each step before moving to the next.
+Work through the following steps sequentially. **At the start of each step, print a progress line** like `[Step 2/8] Generating personas...` — this gives the user a sense of progress since the full pipeline takes 10-20 minutes. Present your work for each step before moving to the next.
 
 ---
 
@@ -283,11 +273,7 @@ Act as a research director assembling a subject matter expert panel. Based on th
 
 If custom experts were loaded from `experts.md` or `experts.custom` in config, use those profiles instead of auto-selecting.
 
-**Expert selection:** Choose experts whose backgrounds match the product's domain, go-to-market, and competitive landscape. Examples:
-- Marketplace product → marketplace strategist, platform economist, supply-side operator
-- B2B SaaS → enterprise sales leader, product-led growth expert, vertical domain specialist
-- Consumer app → growth marketer, behavioral psychologist, monetization specialist
-- Hardware → supply chain expert, industrial designer, distribution channel specialist
+**Expert selection:** Choose experts whose backgrounds match the product's domain, go-to-market, and competitive landscape. Examples: marketplace → platform economist, supply-side operator; B2B SaaS → enterprise sales leader, PLG expert; consumer → growth marketer, behavioral psychologist; hardware → supply chain expert, distribution specialist.
 
 **Experts should give their honest, independent assessment.** Do not have experts validate or echo each other — each should evaluate through the lens of their own domain. If their assessments naturally conflict (e.g., an enterprise sales expert and a product-led growth expert on GTM), preserve that tension. It's valuable signal.
 
@@ -430,7 +416,15 @@ Frame all findings as hypotheses to validate with real users, not confirmed rese
 2. Get today's date (use Bash: `date +%Y-%m-%d`)
 3. Derive a filename slug from the product name (lowercase, hyphens, max 50 chars)
 4. Write the full markdown report to `outputs/{date}-{slug}.md` using the Write tool
-5. If `render_report.py` exists in the project root (check with Bash: `test -f render_report.py`), render an HTML version: `python render_report.py "outputs/{date}-{slug}.md"`
+5. **HTML rendering:** If `render_report.py` exists (check with Bash: `test -f render_report.py`), use it: `python render_report.py "outputs/{date}-{slug}.md"`. Otherwise, generate a styled HTML report directly using the Write tool:
+   - **Page structure:** `<!DOCTYPE html>` with viewport meta. Fixed left sidebar (260px) with table of contents built from h2/h3 headings as anchor links. Main content max-width 780px, 40px padding. Hide sidebar on screens <900px via `@media`.
+   - **Typography:** System font stack (`-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`). Body 15px, line-height 1.65. h1 28px bold, h2 22px with 1px top border separator, h3 17px semibold.
+   - **Colors:** Use CSS custom properties. Support dark mode via `@media (prefers-color-scheme: dark)`. Light: bg #fafaf9, text #1c1917. Dark: bg #1c1917, text #e7e5e4. Muted text: #78716c / #a8a29e.
+   - **Score display:** Overall score as large bold number (32px, -0.03em tracking) with "/ 10" in muted 18px. Verdict in a rounded pill badge (20px radius) with score-colored background. Thresholds: strong/green (fg #065f46, bg #ecfdf5) for ≥7.5, solid/blue (#1e40af, #eff6ff) for 5.5-7.4, moderate/amber (#854d0e, #fefce8) for 3.5-5.4, weak/red (#991b1b, #fef2f2) for <3.5. In the dimension table, wrap each numeric score in a 32px colored square badge (6px radius, same thresholds).
+   - **Tables:** Full-width, collapsed borders, 10px cell padding, 2px header border-bottom, subtle row hover background.
+   - **Transcripts:** In the appendix, wrap each persona's interview in `<details class="transcript"><summary>` with +/- toggle via CSS `::before` pseudo-element. Style: 1px border, 8px border-radius. Hide default marker (`list-style: none`).
+   - **Other elements:** Blockquotes with 3px left accent border, italic, subtle background. Code in monospace (`SF Mono`, `Consolas`) at 13px. Lists with 24px left padding.
+   - **Scroll spy:** Include a `<script>` using IntersectionObserver to highlight the active TOC sidebar link as the user scrolls (rootMargin: '-20% 0px -70% 0px').
 6. After writing, print a summary to the conversation:
    - Verdict and overall score
    - Score breakdown (all dimensions)
@@ -471,5 +465,5 @@ Design 3-5 specific experiments the team should run to validate the riskiest ass
 
 1. Derive the filename slug from the product name (same slug as the main report)
 2. Write the deep research report to `outputs/{date}-{slug}-deep-research.md` using the Write tool
-3. If `render_report.py` exists, render an HTML version: `python render_report.py "outputs/{date}-{slug}-deep-research.md"`
+3. **HTML rendering:** Same as Step 7 — use `render_report.py` if available, otherwise generate basic styled HTML directly
 4. After writing, print the path to the deep research file and a 2-3 sentence summary of the most important findings

@@ -924,3 +924,9 @@ class TestSafetyAndQuality:
         lower = skill_content.lower()
         assert "arithmetic mean" in lower or "average" in lower
         assert "penalty" in lower or "critical" in lower
+
+    def test_html_fallback_rendering(self, skill_content):
+        """Skill should generate basic HTML when render_report.py is unavailable."""
+        lower = skill_content.lower()
+        assert "otherwise" in lower and "html" in lower
+        assert "score display" in lower or "score-colored" in lower

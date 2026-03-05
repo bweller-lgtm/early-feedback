@@ -433,6 +433,7 @@ Frame all findings as hypotheses to validate with real users, not confirmed rese
 3. Derive a filename slug from the product name (lowercase, hyphens, max 50 chars)
 4. Write the full markdown report to `outputs/{date}-{slug}.md` using the Write tool. Begin the report with a metadata block: `**Date:** {date}` · `**Evaluated by:** Early Feedback v{version}` · `**Config:** {persona count} personas, {expert count} experts, web research {on/off}` · `**Flags:** {flags used or "none"}`
 5. **HTML rendering:** If `render_report.py` exists (check with Bash: `test -f render_report.py`), use it: `python render_report.py "outputs/{date}-{slug}.md"`. Otherwise, generate a styled HTML report directly using the Write tool:
+   - **Skeleton:** Use exactly: `<nav class="sidebar">` containing flat `<a>` links (add class `toc-h3` for h3-level entries). `<main>` for content. Score color classes: `score-strong`, `score-solid`, `score-moderate`, `score-weak` applied to both `.verdict-pill` and `.score-badge` elements. Wrap Date/Evaluated-by/Config/Flags in `<div class="meta">` with muted 14px text.
    - **Page structure:** `<!DOCTYPE html>` with viewport meta. Fixed left sidebar (260px) with table of contents built from h2/h3 headings as anchor links. Main content max-width 780px, 40px padding. Hide sidebar on screens <900px via `@media`.
    - **Typography:** System font stack (`-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`). Body 15px, line-height 1.65. h1 28px bold, h2 22px with 1px top border separator, h3 17px semibold.
    - **Colors:** Use CSS custom properties. Support dark mode via `@media (prefers-color-scheme: dark)`. Light: bg #fafaf9, text #1c1917. Dark: bg #1c1917, text #e7e5e4. Muted text: #78716c / #a8a29e.
@@ -440,6 +441,7 @@ Frame all findings as hypotheses to validate with real users, not confirmed rese
    - **Tables:** Full-width, collapsed borders, 10px cell padding, 2px header border-bottom, subtle row hover background.
    - **Transcripts:** In the appendix, wrap each persona's interview in `<details class="transcript"><summary>` with +/- toggle via CSS `::before` pseudo-element. Style: 1px border, 8px border-radius. Hide default marker (`list-style: none`).
    - **Other elements:** Blockquotes with 3px left accent border, italic, subtle background. Code in monospace (`SF Mono`, `Consolas`) at 13px. Lists with 24px left padding.
+   - **Print:** Add `@media print` hiding sidebar, setting `main` margin-left to 0, and forcing light-mode colors.
    - **Scroll spy:** Include a `<script>` using IntersectionObserver to highlight the active TOC sidebar link as the user scrolls (rootMargin: '-20% 0px -70% 0px').
 6. After writing, print a summary to the conversation:
    - Verdict and overall score

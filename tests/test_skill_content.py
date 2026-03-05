@@ -195,16 +195,16 @@ class TestStep3Interviews:
     def test_topic_initial_reaction(self, skill_content):
         assert "initial reaction" in skill_content.lower()
 
-    def test_topic_feature_interest(self, skill_content):
+    def test_topic_feature_priority(self, skill_content):
         lower = skill_content.lower()
-        assert "features interest" in lower or "feature interest" in lower or "which features" in lower
+        assert "feature priority" in lower or "feature" in lower and "rank" in lower
 
     def test_topic_concerns(self, skill_content):
         assert "concerns" in skill_content.lower()
 
-    def test_topic_willingness_to_pay(self, skill_content):
+    def test_topic_switching_costs(self, skill_content):
         lower = skill_content.lower()
-        assert "willing" in lower and "pay" in lower
+        assert "switching cost" in lower or "give up" in lower
 
     def test_topic_switching(self, skill_content):
         assert "switch" in skill_content.lower()
@@ -221,8 +221,9 @@ class TestStep3Interviews:
     def test_would_adopt_output(self, skill_content):
         assert "adopt" in skill_content.lower()
 
-    def test_anchor_pricing(self, skill_content):
-        assert "anchor" in skill_content.lower() and "pay" in skill_content.lower()
+    def test_loss_framing(self, skill_content):
+        lower = skill_content.lower()
+        assert "loss" in lower or "weigh losses" in lower or "sunk cost" in lower
 
 
 class TestAdaptiveInterviews:
@@ -280,6 +281,55 @@ class TestHonestyGuardrails:
         """Missing info should be flagged, not filled in."""
         lower = skill_content.lower()
         assert "information gaps" in lower
+
+
+class TestResearchMethodology:
+    """Verify UXR/HCI-grounded methodology additions."""
+
+    def test_assumption_mapping(self, skill_content):
+        """Should map assumptions by importance x uncertainty."""
+        lower = skill_content.lower()
+        assert "leap-of-faith" in lower or "leap of faith" in lower
+        assert "importance" in lower and "uncertainty" in lower
+
+    def test_rogers_adoption_categories(self, skill_content):
+        """Personas should include Rogers diffusion categories."""
+        lower = skill_content.lower()
+        assert "early majority" in lower or "late majority" in lower
+        assert "pragmatist" in lower
+
+    def test_status_quo_attachment(self, skill_content):
+        """Personas should assess attachment to current solution."""
+        lower = skill_content.lower()
+        assert "status quo" in lower or "attachment" in lower
+
+    def test_pre_mortem(self, skill_content):
+        """Experts should perform pre-mortem failure analysis."""
+        lower = skill_content.lower()
+        assert "pre-mortem" in lower or "pre mortem" in lower
+        assert "failed" in lower
+
+    def test_confidence_calibration(self, skill_content):
+        """Report should include confidence tiers for findings."""
+        lower = skill_content.lower()
+        assert "confidence calibration" in lower or "directionally reliable" in lower
+
+    def test_no_stated_wtp(self, skill_content):
+        """Should NOT ask synthetic personas direct WTP questions (unreliable)."""
+        lower = skill_content.lower()
+        assert "willingness to pay" not in lower
+
+    def test_kano_classification(self, skill_content):
+        """Features should be classified using Kano model categories."""
+        lower = skill_content.lower()
+        assert "kano" in lower
+        assert "must-be" in lower or "must be" in lower
+        assert "attractive" in lower
+
+    def test_forced_feature_ranking(self, skill_content):
+        """Feature interest should use forced ranking, not open rating."""
+        lower = skill_content.lower()
+        assert "most" in lower and "least" in lower and "feature" in lower
 
 
 class TestViabilityGate:
@@ -388,15 +438,16 @@ class TestStep6Analysis:
     def test_pain_points_ranked(self, skill_content):
         assert "pain point" in skill_content.lower()
 
-    def test_feature_requests(self, skill_content):
-        assert "feature request" in skill_content.lower()
+    def test_feature_classification(self, skill_content):
+        lower = skill_content.lower()
+        assert "feature classification" in lower or "kano" in lower
 
     def test_adoption_barriers(self, skill_content):
         assert "adoption barrier" in skill_content.lower()
 
-    def test_wtp_signals(self, skill_content):
+    def test_switching_cost_assessment(self, skill_content):
         lower = skill_content.lower()
-        assert "willingness" in lower and "pay" in lower
+        assert "switching cost" in lower
 
     def test_segment_interest(self, skill_content):
         assert "segment" in skill_content.lower()

@@ -10,7 +10,7 @@ license: MIT
 compatibility: Requires Claude Code with Bash, Read, Glob, and Write tools. Optional WebSearch for market research.
 metadata:
   author: bweller-lgtm
-  version: "1.2.0"
+  version: "1.3.0"
   repository: "https://github.com/bweller-lgtm/early-feedback"
 ---
 
@@ -116,6 +116,8 @@ Act as a product analyst. Extract structured information from the idea descripti
 
 Be specific and actionable. If information is not explicitly stated, flag it as unknown or underspecified. Do not fill gaps with optimistic assumptions — note what's missing honestly.
 
+**Assumption Mapping:** After listing assumptions, rank each by importance (how critical it is for the concept to work) and uncertainty (how confident you are it's true). Flag the 3-5 **leap-of-faith assumptions** — high importance, high uncertainty. Target interview questions specifically at these in Step 3.
+
 **Information Gaps:** After the structured fields, list any important information that was NOT provided in the input and would materially affect the evaluation. Examples: no pricing mentioned, no competitive landscape described, target market undefined, business model unclear. These gaps will be noted in the final report.
 
 Present the parsed context including information gaps before continuing.
@@ -164,6 +166,7 @@ After defining each persona's background and current workflow, simulate their ho
 - Vary age, career stage, and company size
 - Include at least one persona actively using a competing solution
 - Include at least one who has tried and abandoned similar tools
+- Include at least 2 early/late majority pragmatists (Rogers' diffusion) — they require proven ROI, peer references, and low switching friction before adopting. Not every persona should be an innovator or early adopter.
 - If `personas.must_include` is configured, include those specific persona types
 
 If web research was performed in Step 1.5, use real competitor names, realistic pricing anchors, and actual pain points discovered in the research when building personas.
@@ -176,7 +179,9 @@ If web research was performed in Step 1.5, use real competitor names, realistic 
 5. Current workflow — how they solve the problem today
 6. Pain points — key frustrations
 7. Enthusiasm level (skeptic / neutral / enthusiastic) — their honest reaction to this product
-8. Relevant experience and background
+8. Adoption profile (innovator / early adopter / early majority / late majority)
+9. Status quo attachment — how invested in their current solution (years of use, customization, team dependencies, data lock-in). High attachment = high switching cost.
+10. Relevant experience and background
 
 Present all personas before continuing.
 
@@ -190,16 +195,16 @@ For each persona, conduct a simulated interview. Fully adopt each persona's pers
 - All personas react honestly. Skeptics should acknowledge genuine strengths they see. Enthusiasts should voice real concerns. Nobody is a caricature — real people have nuanced views.
 - Draw on the persona's specific work context and experiences
 - Give specific examples from daily work, not generic statements
-- When discussing pricing, anchor to what they currently pay for similar tools
+- When discussing switching, probe what they'd lose: workflow disruption, data migration, learning curves, sunk costs. People weigh losses ~2× as heavily as gains — reflect this in adoption verdicts.
 - Be honest about whether they'd actually switch from their current workflow
 - Mention specific competing tools or workarounds they use today
 
 **Each interview covers 6-7 exchanges on these core topics:**
 1. Current workflow and biggest frustrations
 2. Initial reaction to the product concept
-3. Which features interest them most and why
+3. Feature priority (forced rank) — of the product's core features, which ONE matters most and which matters least? Do not let personas rate everything as important.
 4. Concerns or objections
-5. Willingness to pay (or why they wouldn't)
+5. Switching costs — what they'd have to give up, what they've invested in current tools, worst case if this product fails them
 6. What would need to be true to switch
 7. Overall recommendation
 
@@ -210,6 +215,8 @@ For each persona, conduct a simulated interview. Fully adopt each persona's pers
 - Social/network product → cold-start willingness, network effects threshold, privacy concerns
 - B2B SaaS → integration requirements, procurement process, security review
 - Developer tools → migration effort, lock-in concerns, open-source alternatives
+
+**Target leap-of-faith assumptions** from Step 1's assumption mapping. For each high-importance, high-uncertainty assumption, include at least one interview question that directly tests it.
 
 If `required_questions` are set (from config, questions.md, or --questions file), those questions MUST also be asked during each interview.
 
@@ -307,6 +314,10 @@ Each expert writes a 2-3 paragraph assessment covering:
 
 Each expert should reference specific interview responses (initial and follow-up) to support their conclusions. Each expert assesses independently — if their conclusions conflict with another expert's, they should say so and explain why.
 
+### Part A.5: Pre-Mortem
+
+Each expert assumes the product launched 12 months ago and has already failed. Each independently generates 3-5 reasons why it failed, drawing on their domain expertise and the interview evidence. Aggregate failure reasons by frequency — any failure mode raised by 2+ experts is flagged as a critical risk in the final report. This counteracts the pipeline's structural optimism bias.
+
 ### Part B: Feedback Analysis
 
 Act as a senior product strategist. Analyze the combined interview results (initial + follow-up) to find signal in the noise.
@@ -318,16 +329,15 @@ Act as a senior product strategist. Analyze the combined interview results (init
 - Note sentiment per theme: mostly positive, negative, or mixed?
 - Identify the strongest quotes capturing each finding
 - Look for surprising findings — what wasn't expected?
-- Pay attention to adoption barriers — what stops people from switching?
-- Extract willingness-to-pay signals
+- Pay attention to adoption barriers and switching costs — what stops people from switching?
 - Identify which user segments showed the most vs least interest
 
 **Produce:**
 - **Themes** — recurring patterns with name, description, frequency count, sentiment, and supporting quotes
 - **Pain points ranked** by frequency/severity
-- **Feature requests** — suggested or desired capabilities
-- **Adoption barriers** — obstacles to switching
-- **WTP signals** — willingness-to-pay observations
+- **Feature classification (Kano)** — for each feature discussed across interviews, classify as: **must-be** (absence is a dealbreaker, presence is expected), **performance** (more is better, linear satisfaction), or **attractive** (unexpected delight, absence isn't noticed). Base classification on whether personas reacted to the feature's *absence* with frustration vs. its *presence* with excitement.
+- **Feature priority ranking** — aggregate the forced most/least rankings from interviews into an overall feature hierarchy
+- **Switching cost assessment** — what personas would lose by adopting, and whether they'd accept those losses
 - **Segment interest** — which persona types are most vs least interested
 - **Sentiment distribution** — count of positive / negative / mixed across all personas
 
@@ -351,7 +361,7 @@ If the `--full` flag was used and the viability gate (Step 3.5) flagged critical
 | Solution Fit | Elegant fit | Good fit, gaps remain | Partial | Mismatch |
 | Market Demand | Large eager market | Mid-size or growing | Niche | Too small or shrinking |
 | Competitive Position | Clear differentiation | Differentiated but contested | Crowded but viable | Dominated |
-| Monetization Potential | Clear willingness to pay | Some WTP signals | Uncertain pricing | Hard to monetize |
+| Monetization Potential | Paid market precedent, strong switching motivation | Some paid alternatives, moderate pain | Free alternatives dominate, low urgency | No monetization path evident |
 
 If `scoring.additional_dimensions` is configured, add those dimensions to the table and include them in the overall score calculation.
 
@@ -378,6 +388,15 @@ Write the report with these sections:
 6. **Risks and Concerns** — critical issues to address, including information gaps from Step 1
 7. **Recommendations** — prioritized, actionable next steps
 8. **Appendix: Interview Transcripts** — full Q&A dialogue for each persona (initial interviews + expert follow-up questions) with sentiment, adoption verdict, and key quotes
+
+### Confidence Calibration
+
+The report must include a confidence calibration section:
+- **Directionally reliable:** Relative feature rankings, major deal-breakers, adoption barriers, sentiment patterns
+- **Uncertain:** Specific price points, absolute adoption percentages, market size estimates
+- **Treat as hypotheses:** Tail-end user behaviors, culturally specific reactions, competitive responses
+
+Frame all findings as hypotheses to validate with real users, not confirmed research. This tool generates the questions worth asking — not the final answers.
 
 ### Output
 

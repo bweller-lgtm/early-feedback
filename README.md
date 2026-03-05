@@ -5,6 +5,7 @@
 <h1 align="center">Early Feedback</h1>
 
 <p align="center"><strong>Get honest feedback on your product idea before you build it.</strong></p>
+<p align="center"><code>v1.3.0</code> · 197 tests · MIT License</p>
 
 Describe your idea, drop in a pitch deck, or point it at a codebase. Early Feedback interviews synthetic users, assembles a domain expert panel, and tells you what's actually wrong — before you spend months finding out the hard way.
 
@@ -36,14 +37,22 @@ Independent expert assessments. When their conclusions conflict, the tension is 
 
 ## Why Early Feedback
 
-Most feedback on early-stage ideas is either too polite or too shallow. Friends say "sounds cool." Investors ask about traction you don't have yet. Early Feedback gives you the conversation you *need* — honest, specific, and grounded in how real users would actually react.
+Most feedback on early-stage ideas is either too polite or too shallow. Friends say "sounds cool." Investors ask about traction you don't have yet. Early Feedback gives you the conversation you *need* — honest, specific, and structured around the questions that actually matter.
 
-- **Honest reactions** — personas respond based on the idea's actual merit. A bad idea gets mostly skeptics. No forced positivity.
-- **Kills bad ideas fast** — universal rejection produces a short critical-issues report and stops. No 5,000-word report for a dead idea.
-- **Independent experts** — each evaluates through their own lens. When they disagree, that tension is signal.
-- **Gaps called out** — missing info is flagged, not filled with optimistic assumptions.
-- **Full scoring scale** — scores of 2 or 9 are valid when evidence supports them.
-- **Product-specific dimensions** — identifies what matters most for *this specific product*.
+### Grounded in research methodology
+
+The pipeline adapts established UXR and product evaluation methods for synthetic research:
+
+- **Assumption mapping** (McGrath & MacMillan) — ranks hypotheses by importance × uncertainty, targets interviews at leap-of-faith assumptions
+- **Loss framing** (Kahneman & Tversky) — probes switching costs and sunk costs, not just feature appeal. Losses weighted ~2× gains in adoption verdicts.
+- **Adoption profiling** (Rogers' diffusion) — personas span innovators through late majority, with at least 2 pragmatists who need proven ROI before switching
+- **Pre-mortem analysis** (Klein) — experts imagine the product failed after 12 months and generate failure reasons, counteracting structural optimism
+- **Feature classification** (Kano model) — distinguishes must-be features (table stakes) from attractive features (differentiators)
+- **Forced feature ranking** (MaxDiff-inspired) — personas choose their most and least important feature instead of rating everything as important
+
+### Honest about limitations
+
+Early Feedback is a **hypothesis engine, not a research substitute.** Every report includes a confidence calibration section that labels what's directionally reliable (sentiment patterns, deal-breakers), what's uncertain (adoption percentages, market sizing), and what should be treated as hypotheses (tail-end behaviors, competitive responses). The HCI literature shows synthetic personas produce believable but variance-compressed outputs — they'll catch the obvious problems, but real user research catches the surprises. Use this to know which questions to ask, then go ask real people.
 
 ---
 
@@ -164,7 +173,7 @@ Optional external files (`experts.md`, `questions.md`, `context.md`) provide det
 | Solution Fit | Elegant fit | Good fit, gaps remain | Partial | Mismatch |
 | Market Demand | Large eager market | Mid-size or growing | Niche | Too small or shrinking |
 | Competitive Position | Clear differentiation | Differentiated but contested | Crowded but viable | Dominated |
-| Monetization Potential | Clear willingness to pay | Some WTP signals | Uncertain pricing | Hard to monetize |
+| Monetization Potential | Paid market precedent, strong switching motivation | Some paid alternatives, moderate pain | Free alternatives dominate, low urgency | No monetization path evident |
 
 | Overall Score | Verdict |
 |---|---|
@@ -180,15 +189,15 @@ Optional external files (`experts.md`, `questions.md`, `context.md`) provide det
 
 ```
 Preamble   Parse flags, load config, load external files
-Step 1     Parse product context (flag gaps, don't infer)
+Step 1     Parse product context + assumption mapping (flag gaps, don't infer)
 Step 1.5   Web research (on by default, skip with --no-web-search)
-Step 2     Generate personas with organic sentiment
-Step 3     Simulate interviews (core + product-type-specific questions)
+Step 2     Generate personas (organic sentiment, Rogers adoption tags, status quo attachment)
+Step 3     Simulate interviews (loss framing, forced feature ranking, assumption-targeted Qs)
 Step 3.5   Viability gate — kill bad ideas early (unless --full)
 Step 4     Expert panel review (configurable, skippable)
 Step 5     Follow-up interviews from expert questions
-Step 6     Expert synthesis + feedback analysis
-Step 7     Generate scored report
+Step 6     Pre-mortem + expert synthesis + Kano feature classification
+Step 7     Generate scored report + confidence calibration
 Step 8     Deep research report (conditional: --deep)
 ```
 
@@ -199,7 +208,7 @@ Step 8     Deep research report (conditional: --deep)
 ## Tests
 
 <details>
-<summary><strong>189 tests</strong> — scoring, honesty guardrails, organic sentiment, viability gate, expert panel, configuration, report structure</summary>
+<summary><strong>197 tests</strong> — scoring, honesty guardrails, organic sentiment, viability gate, expert panel, configuration, report structure</summary>
 
 ```bash
 pip install pytest
@@ -222,7 +231,7 @@ python tests/validate_report.py outputs/YYYY-MM-DD-my-product.md
 evaluate/SKILL.md               # The skill (Agent Skills standard format)
 .claude/commands/evaluate.md    # Legacy command (keeps /evaluate working without plugin install)
 tests/
-  test_skill_content.py         # 158 tests: skill methodology + SKILL.md format validation
+  test_skill_content.py         # 168 tests: skill methodology + SKILL.md format validation
   test_report_format.py         # 29 tests: report structure validation
   validate_report.py            # Standalone CLI report validator
   conftest.py                   # Shared fixtures and sample report

@@ -1,6 +1,6 @@
 # Simulated Innovation
 
-A Claude Code skill that evaluates startup and product ideas using synthetic user personas and simulated interviews. No API keys, no dependencies -- just `/evaluate`.
+A Claude Code skill that evaluates startup and product ideas using synthetic user personas, simulated interviews, and a subject matter expert panel. No API keys, no dependencies -- just `/evaluate`.
 
 ## Requirements
 
@@ -35,13 +35,15 @@ Directory mode supports: `.md`, `.txt`, `.py`, `.js`, `.ts`, `.tsx`, `.json`, `.
 
 ## How It Works
 
-The `/evaluate` skill walks through 5 steps in a single conversation:
+The `/evaluate` skill walks through 7 steps in a single conversation:
 
 1. **Parse Context** -- Extracts structured product information (name, value proposition, target users, competitors, assumptions to test)
 2. **Generate Personas** -- Creates 8 diverse synthetic users (2 skeptics, 3 neutral, 3 enthusiastic) with realistic backgrounds, workflows, and pain points
 3. **Simulate Interviews** -- Conducts full Q&A interviews (6-7 exchanges each) with each persona covering workflow, reactions, pricing, concerns, and switching intent
-4. **Analyze Feedback** -- Identifies recurring themes, ranks pain points, surfaces adoption barriers, and extracts willingness-to-pay signals
-5. **Generate Report** -- Produces a scored evaluation with a verdict and actionable recommendations, saved to `outputs/`
+4. **Expert Panel Review** -- 3 domain experts (selected based on product type) review the interviews, critique the questions, and suggest targeted follow-up probes
+5. **Follow-up Interviews** -- Expert-suggested questions are posed to specific personas for deeper responses
+6. **Expert Synthesis + Analysis** -- Each expert writes their assessment; combined with theme analysis, pain point ranking, and willingness-to-pay signals across all interview data
+7. **Generate Report** -- Produces a scored evaluation with expert assessments, a verdict, and actionable recommendations, saved to `outputs/`
 
 ## Scoring Framework
 
@@ -71,10 +73,11 @@ Reports are saved as Markdown files in `outputs/` with the naming convention `YY
 1. Executive Summary
 2. Overall Score with dimension breakdown table
 3. Key Findings (top 5 with supporting evidence and quotes)
-4. Audience Segmentation
-5. Risks and Concerns
-6. Prioritized Recommendations
-7. Appendix with full interview transcripts (Q&A dialogue for all 8 personas)
+4. Expert Assessments (3 domain expert syntheses with recommendations)
+5. Audience Segmentation
+6. Risks and Concerns
+7. Prioritized Recommendations
+8. Appendix with full interview transcripts (initial Q&A + expert follow-up questions for all 8 personas)
 
 ## Tests
 
@@ -83,7 +86,7 @@ pip install pytest
 python -m pytest tests/ -v
 ```
 
-101 tests validate that the skill file contains all required methodology (scoring framework, persona diversity, interview coverage, report structure) and that generated reports meet the expected format.
+Tests validate that the skill file contains all required methodology (scoring framework, persona diversity, interview coverage, expert panel, report structure) and that generated reports meet the expected format.
 
 You can also validate any generated report directly:
 
@@ -96,8 +99,8 @@ python tests/validate_report.py outputs/2026-03-04-my-product.md
 ```
 .claude/commands/evaluate.md   # The skill -- all evaluation methodology
 tests/
-  test_skill_content.py        # Validates skill has complete methodology (76 tests)
-  test_report_format.py        # Validates generated report structure (25 tests)
+  test_skill_content.py        # Validates skill has complete methodology
+  test_report_format.py        # Validates generated report structure
   validate_report.py           # Standalone CLI report validator
   conftest.py                  # Shared fixtures and sample report
 outputs/                       # Generated evaluation reports

@@ -64,6 +64,32 @@ data. "I'd need to see serious security credentials." -- David, Cautious Adopter
 All personas assumed mobile access would be available, treating it as table
 stakes rather than a feature.
 
+## Expert Assessments
+
+### E1: Elena Vasquez — SaaS Monetization Strategist
+
+InvoiceFlow's cash flow prediction is the only feature that justifies a paid product in a market dominated by free alternatives. The interviews confirm this: Wave and Google Sheets handle basic invoicing adequately for most solo freelancers. The prediction feature creates a genuine upgrade path, but the team needs to be honest that they're building a cash flow tool with invoicing attached, not the reverse.
+
+The pricing signals are encouraging but fragmented. Solo freelancers anchor at $10-15/month while agencies think in terms of $50/month team plans. I'd recommend launching with a free tier for basic invoicing (competing with Wave) and a $19/month Pro tier that unlocks predictions and integrations. The free tier builds the user base; the prediction feature converts them.
+
+Key risk: if the cash flow predictions are inaccurate even once, trust is destroyed permanently. This is a financial tool -- users will hold it to a higher standard than a project management app. Ship with conservative predictions and underpromise.
+
+### E2: Michael Torres — Freelancer Ecosystem Expert
+
+The interviews missed a critical question: how do freelancers currently handle late payments and collections? This is often a bigger pain point than invoice creation itself. Sarah and Rachel both mentioned time-tracking integration but neither was asked about payment follow-up workflows, which is where the real time sink often lives.
+
+The product has clear product-market fit for the "graduating freelancer" -- someone moving from 2-3 clients to 5-8 clients, where manual processes start breaking down. David (the skeptic) is right that solo devs with 3 clients don't need this. The sweet spot is freelancers crossing the complexity threshold.
+
+I'd prioritize the Toggl and Harvest integrations above everything else. "Automatic invoices from time tracking" is a one-sentence pitch that sells itself. The cash flow prediction is the retention feature; the integration is the acquisition feature.
+
+### E3: Priya Chandrasekaran — Fintech Product Leader
+
+From a fintech perspective, the cash flow prediction feature has a data cold-start problem that nobody in the interviews addressed. Accurate 90-day predictions require at least 6-12 months of historical billing data. New users won't have that data in InvoiceFlow on day one, which means the flagship feature won't work well for new customers -- exactly the people you're trying to impress.
+
+The solution is a data import pipeline: let users connect their bank account or import from FreshBooks/Wave/QuickBooks to bootstrap the prediction model. Rachel specifically mentioned wanting a FreshBooks import tool. This isn't just a migration convenience -- it's what makes the core feature viable on day one.
+
+I'm concerned about regulatory requirements. If you're connecting to bank accounts for prediction data, you'll need to comply with financial data regulations depending on jurisdiction. Budget for legal review and potentially PCI compliance before launching the bank connection feature.
+
 ## Audience Segmentation
 
 **Most promising:** Freelance designers and consultants billing hourly (high pain, clear WTP).
@@ -273,4 +299,26 @@ A: Don't try to compete with Xero or QuickBooks for agencies. Target solo freela
 
 Sentiment: negative. Would adopt: no.
 Key quotes: "We use Xero and it does everything we need."
+
+### Expert Follow-up Questions
+
+**Elena Vasquez asks Sarah Chen (P1):**
+
+**Q: You said you'd pay $15/month. If the cash flow prediction were a separate $10/month add-on on top of basic invoicing, would you still want it?**
+A: Hmm, that changes things. I'd want the prediction bundled -- if I'm already paying for invoicing, don't nickel-and-dime me. $15 all-in feels fair. $25 for invoicing plus prediction feels like too much for a solo freelancer.
+
+**Elena Vasquez asks Marcus Johnson (P2):**
+
+**Q: You mentioned feast-and-famine cycles. How much revenue have you lost by not being able to predict cash flow accurately?**
+A: Last year I took on a low-rate project because I was scared about a dry spell that never came. Cost me about $15K in opportunity cost. If I'd known I had two good contracts coming, I would have held out for better rates.
+
+**Michael Torres asks David Park (P3):**
+
+**Q: You've tried 4 invoicing apps and rejected them all. What specifically made you stop using each one?**
+A: FreshBooks got expensive and bloated. Wave started showing ads and pushing their payment processing. Bonsai was too focused on contracts when I just wanted invoices. HoneyBook was designed for wedding photographers, not developers. They all tried to be more than invoicing and that's exactly what I didn't want.
+
+**Priya Chandrasekaran asks Rachel Kim (P6):**
+
+**Q: If InvoiceFlow could import your 3 years of FreshBooks data on day one and immediately show cash flow predictions based on your history, would that change your urgency to switch?**
+A: That would be a game-changer. The reason I haven't switched yet is the history issue -- I don't want to start from scratch. If I could see predictions based on my real data from day one, I'd switch this week.
 """

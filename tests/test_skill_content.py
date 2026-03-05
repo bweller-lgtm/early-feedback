@@ -144,7 +144,78 @@ class TestStep3Interviews:
         assert "anchor" in skill_content.lower() and "pay" in skill_content.lower()
 
 
-class TestStep4Analysis:
+class TestStep4ExpertPanel:
+    """Verify expert panel review methodology is complete."""
+
+    def test_three_experts(self, skill_content):
+        assert "3" in skill_content and "expert" in skill_content.lower()
+
+    def test_experts_selected_by_context(self, skill_content):
+        lower = skill_content.lower()
+        assert "product" in lower and ("context" in lower or "domain" in lower)
+
+    def test_experts_critique_questions(self, skill_content):
+        lower = skill_content.lower()
+        assert "critique" in lower or "evaluate" in lower or "review" in lower
+
+    def test_experts_suggest_followups(self, skill_content):
+        lower = skill_content.lower()
+        assert "follow-up" in lower or "followup" in lower or "follow up" in lower
+
+    def test_expert_credentials(self, skill_content):
+        lower = skill_content.lower()
+        assert "credential" in lower or "expertise" in lower
+
+    def test_expert_examples_by_product_type(self, skill_content):
+        lower = skill_content.lower()
+        assert "marketplace" in lower and "b2b" in lower.replace("b2b_saas", "b2b")
+
+    def test_experts_identify_gaps(self, skill_content):
+        lower = skill_content.lower()
+        assert "gap" in lower or "missed" in lower or "surface-level" in lower
+
+
+class TestStep5FollowupInterviews:
+    """Verify follow-up interview methodology is complete."""
+
+    def test_followup_from_experts(self, skill_content):
+        lower = skill_content.lower()
+        assert "follow-up" in lower and "expert" in lower
+
+    def test_followup_in_character(self, skill_content):
+        lower = skill_content.lower()
+        assert "in character" in lower or "character" in lower
+
+    def test_followup_informed_by_round_1(self, skill_content):
+        lower = skill_content.lower()
+        assert "round 1" in lower or "initial interview" in lower or "step 3" in lower
+
+    def test_followup_attributed_to_expert(self, skill_content):
+        lower = skill_content.lower()
+        assert "attribute" in lower or "expert who" in lower
+
+
+class TestStep6ExpertSynthesis:
+    """Verify expert synthesis and feedback analysis methodology."""
+
+    def test_expert_assessment(self, skill_content):
+        lower = skill_content.lower()
+        assert "assessment" in lower and "expert" in lower
+
+    def test_expert_domain_evaluation(self, skill_content):
+        lower = skill_content.lower()
+        assert "domain" in lower and ("evaluation" in lower or "specific" in lower)
+
+    def test_expert_recommendation(self, skill_content):
+        lower = skill_content.lower()
+        assert "recommendation" in lower
+
+    def test_expert_references_interviews(self, skill_content):
+        lower = skill_content.lower()
+        assert "reference" in lower or "interview response" in lower
+
+
+class TestStep6Analysis:
     """Verify feedback analysis methodology is complete."""
 
     def test_themes(self, skill_content):
@@ -175,8 +246,12 @@ class TestStep4Analysis:
     def test_surprising_findings(self, skill_content):
         assert "surprising" in skill_content.lower()
 
+    def test_combined_interview_data(self, skill_content):
+        lower = skill_content.lower()
+        assert "initial" in lower and "follow-up" in lower
 
-class TestStep5Scoring:
+
+class TestStep7Scoring:
     """Verify the scoring framework is complete and accurate."""
 
     DIMENSIONS = [
@@ -220,13 +295,14 @@ class TestStep5Scoring:
         assert "<3" in skill_content
 
 
-class TestStep5ReportStructure:
+class TestStep7ReportStructure:
     """Verify the report format instructions are complete."""
 
     REQUIRED_SECTIONS = [
         "executive summary",
         "overall score",
         "key findings",
+        "expert assessments",
         "audience segmentation",
         "risks",
         "recommendations",
@@ -249,8 +325,12 @@ class TestStep5ReportStructure:
         lower = skill_content.lower()
         assert "transcript" in lower or "dialogue" in lower or "q&a" in lower
 
+    def test_expert_assessments_in_report(self, skill_content):
+        lower = skill_content.lower()
+        assert "expert assessments" in lower
 
-class TestStep5Output:
+
+class TestStep7Output:
     """Verify file output instructions are present."""
 
     def test_outputs_directory(self, skill_content):

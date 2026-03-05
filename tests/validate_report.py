@@ -78,6 +78,13 @@ def validate(report_path: Path) -> list[str]:
     if not any(v in lower for v in verdicts):
         issues.append("MISSING: No recognized verdict phrase")
 
+    # --- Expert assessments ---
+    if "expert" not in lower or "assessment" not in lower:
+        issues.append("MISSING: Expert Assessments section")
+    expert_headings = re.findall(r"###\s+E\d+:", text)
+    if len(expert_headings) < 3:
+        issues.append(f"INCOMPLETE: Found {len(expert_headings)}/3 expert assessments")
+
     # --- Interview transcripts ---
     persona_count = count_persona_summaries(text)
     if persona_count < 8:

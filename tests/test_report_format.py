@@ -99,6 +99,10 @@ class TestReportSections:
         sections = extract_sections(sample_report)
         assert any("recommendation" in k for k in sections), "Missing Recommendations"
 
+    def test_has_expert_assessments(self, sample_report):
+        sections = extract_sections(sample_report)
+        assert any("expert" in k for k in sections), "Missing Expert Assessments"
+
     def test_has_appendix(self, sample_report):
         sections = extract_sections(sample_report)
         assert any("appendix" in k or "interview" in k for k in sections), "Missing Appendix/Interview Summaries"
@@ -216,6 +220,47 @@ class TestKeyFindings:
         # Look for quoted text (in double quotes or italics)
         quotes = re.findall(r'"[^"]{10,}"', findings_text)
         assert len(quotes) >= 1, "Key findings should include supporting quotes"
+
+
+# ---------------------------------------------------------------------------
+# Expert assessments tests
+# ---------------------------------------------------------------------------
+
+class TestExpertAssessments:
+    """Verify expert assessments are present and substantive."""
+
+    def test_has_expert_assessments_section(self, sample_report):
+        sections = extract_sections(sample_report)
+        assert any("expert" in k for k in sections), "Missing Expert Assessments section"
+
+    def test_at_least_three_experts(self, sample_report):
+        sections = extract_sections(sample_report)
+        expert_text = ""
+        for k, v in sections.items():
+            if "expert" in k:
+                expert_text = v
+                break
+        if not expert_text:
+            pytest.skip("Expert Assessments section not found")
+        # Count ### E1:, ### E2:, ### E3: or similar subheadings
+        expert_headings = re.findall(r"###\s+E\d+:", expert_text)
+        assert len(expert_headings) >= 3, (
+            f"Expected 3 expert assessments, found {len(expert_headings)}"
+        )
+
+    def test_expert_assessments_substantive(self, sample_report):
+        sections = extract_sections(sample_report)
+        expert_text = ""
+        for k, v in sections.items():
+            if "expert" in k:
+                expert_text = v
+                break
+        if not expert_text:
+            pytest.skip("Expert Assessments section not found")
+        word_count = len(expert_text.split())
+        assert word_count >= 150, (
+            f"Expert assessments too short ({word_count} words, expected 150+)"
+        )
 
 
 # ---------------------------------------------------------------------------

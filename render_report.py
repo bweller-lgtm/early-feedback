@@ -74,32 +74,34 @@ def make_transcripts_collapsible(html):
     result = []
     in_appendix = False
     in_persona = False
-    persona_buffer = []
 
     for i, part in enumerate(parts):
         if re.search(r"id=[\"'].*appendix", part, re.IGNORECASE):
             in_appendix = True
-            if in_persona and persona_buffer:
-                result.append(
-                    "</div></details>"
-                )
-                persona_buffer = []
+            if in_persona:
+                result.append("</div></details>")
                 in_persona = False
             result.append(part)
             continue
 
         if in_appendix and re.match(r"<h3", part):
-            if in_persona and persona_buffer:
+            if in_persona:
                 result.append("</div></details>")
-                persona_buffer = []
 
             next_content = parts[i + 1] if i + 1 < len(parts) else ""
-            title_match = re.search(r">(.+?)<", part + next_content)
-            title = title_match.group(1) if title_match else "Interview"
+
+            # Split at </h3> — heading goes in summary, rest in body
+            h3_close = next_content.find("</h3>")
+            if h3_close >= 0:
+                heading_text = next_content[: h3_close + 5]
+                body_text = next_content[h3_close + 5 :]
+            else:
+                heading_text = next_content
+                body_text = ""
 
             result.append(
-                f'<details class="transcript"><summary>{part}{next_content}</summary>'
-                f'<div class="transcript-body">'
+                f'<details class="transcript"><summary>{part}{heading_text}</summary>'
+                f'<div class="transcript-body">{body_text}'
             )
             in_persona = True
             # skip the next content part since we consumed it

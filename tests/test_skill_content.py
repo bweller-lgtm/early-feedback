@@ -807,3 +807,23 @@ class TestResearchMethodologyV2:
         """Follow-ups should include cross-persona reactions for social dynamics."""
         lower = skill_content.lower()
         assert "how would you respond" in lower or "cross-persona" in lower
+
+
+class TestParallelExecution:
+    """Verify parallel execution instructions for performance."""
+
+    def test_step3_parallel_interviews(self, skill_content):
+        lower = skill_content.lower()
+        assert "parallel" in lower and "interview" in lower
+
+    def test_step4_parallel_experts(self, skill_content):
+        lower = skill_content.lower()
+        assert "parallel" in lower and "expert" in lower
+
+    def test_step5_parallel_followups(self, skill_content):
+        lower = skill_content.lower()
+        assert "parallel" in lower and "follow-up" in lower
+
+    def test_api_fallback(self, skill_content):
+        lower = skill_content.lower()
+        assert "agent tool is not available" in lower or "sequentially" in lower

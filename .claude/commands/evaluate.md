@@ -192,6 +192,8 @@ Present all personas before continuing.
 
 For each persona, conduct a simulated interview. Fully adopt each persona's perspective and respond in character.
 
+**Parallel execution:** Launch one Agent call per persona. Each agent receives: (1) the product context from Step 1, (2) the Market Context Brief from Step 1.5 if available, (3) one persona's full profile from Step 2, and (4) the interview rules and topic list below. Each agent conducts the full interview in character and returns the transcript with sentiment, adoption verdict, key quotes, and consistency check. Launch all persona agents in a single message for parallel execution. If the Agent tool is not available (e.g., running via API), conduct interviews sequentially instead.
+
 **Behavioral rules:**
 - All personas react honestly. Skeptics should acknowledge genuine strengths they see. Enthusiasts should voice real concerns. Nobody is a caricature — real people have nuanced views.
 - Draw on the persona's specific work context and experiences
@@ -277,6 +279,8 @@ If custom experts were loaded from `experts.md` or `experts.custom` in config, u
 1. Name, title, and relevant credentials
 2. Why their expertise matters for evaluating this product
 
+**Parallel execution:** Launch one Agent call per expert. Each agent receives: (1) the product context, (2) all interview transcripts from Step 3, and (3) one expert's profile. Each agent reviews transcripts, critiques questions, and identifies follow-up questions. Launch all expert agents in a single message. If the Agent tool is not available, process experts sequentially.
+
 **Each expert then:**
 1. Reviews all interview transcripts from Step 3
 2. Critiques the interview questions — what important topics were missed, what should have been probed deeper, what was asked poorly
@@ -289,6 +293,8 @@ Present all experts with their critiques and follow-up questions before continui
 ## Step 5: Follow-up Interviews
 
 **Skip this step if `--no-experts` was passed.**
+
+**Parallel execution:** Launch one Agent call per follow-up exchange. Each agent receives: (1) the persona's profile and full initial transcript, (2) the expert's follow-up question, and (3) the cross-persona quote if applicable. Launch all follow-up agents in a single message. If the Agent tool is not available, process follow-ups sequentially.
 
 For each follow-up question from the expert panel, go back to the specified persona and conduct an additional Q&A exchange. The persona responds in character, consistent with everything they said in the initial interview (Step 3).
 
@@ -309,6 +315,8 @@ Present all follow-up exchanges before continuing.
 ### Part A: Expert Assessments
 
 **Skip Part A if `--no-experts` was passed.**
+
+**Parallel execution:** Launch one Agent call per expert. Each agent receives: (1) the product context, (2) all transcripts (initial + follow-up), and (3) their expert profile. Each agent writes their assessment and pre-mortem independently. Launch all in a single message. If the Agent tool is not available, process assessments sequentially.
 
 Each expert writes a 2-3 paragraph assessment covering:
 - Their domain-specific evaluation of the opportunity (drawing on their expertise)

@@ -1,4 +1,4 @@
-"""Tests that the evaluate.md skill file contains all required methodology.
+"""Tests that the SKILL.md skill file contains all required methodology.
 
 These tests ensure that any edits to the skill preserve the complete
 evaluation framework -- scoring, persona diversity, interview coverage,
@@ -6,7 +6,7 @@ honesty guardrails, report structure, and output instructions.
 """
 
 import pytest
-from conftest import SKILL_PATH
+from conftest import SKILL_PATH, LEGACY_SKILL_PATH
 
 
 class TestSkillFileExists:
@@ -18,6 +18,61 @@ class TestSkillFileExists:
 
     def test_arguments_placeholder(self, skill_content):
         assert "$ARGUMENTS" in skill_content, "Must reference $ARGUMENTS for user input"
+
+    def test_legacy_command_exists(self):
+        assert LEGACY_SKILL_PATH.exists(), (
+            f"Legacy command file missing: {LEGACY_SKILL_PATH} "
+            "(keeps /evaluate working in Claude Code without plugin install)"
+        )
+
+
+class TestSkillMdFrontmatter:
+    """Verify SKILL.md has valid Agent Skills frontmatter."""
+
+    def test_starts_with_frontmatter(self, skill_content):
+        assert skill_content.strip().startswith("---"), "SKILL.md must start with YAML frontmatter"
+
+    def test_has_closing_frontmatter(self, skill_content):
+        parts = skill_content.strip().split("---", 2)
+        assert len(parts) >= 3, "SKILL.md must have opening and closing --- for frontmatter"
+
+    def test_name_field(self, skill_content):
+        frontmatter = skill_content.split("---")[1]
+        assert "name:" in frontmatter
+        assert "evaluate" in frontmatter.lower()
+
+    def test_name_matches_directory(self, skill_content):
+        """Per Agent Skills spec, name must match parent directory."""
+        frontmatter = skill_content.split("---")[1]
+        import re
+        match = re.search(r"name:\s*(\S+)", frontmatter)
+        assert match, "name field not found in frontmatter"
+        assert match.group(1) == "evaluate", "name must be 'evaluate' to match parent directory"
+        assert SKILL_PATH.parent.name == "evaluate", "Parent directory must be named 'evaluate'"
+
+    def test_description_field(self, skill_content):
+        frontmatter = skill_content.split("---")[1]
+        assert "description:" in frontmatter
+
+    def test_description_not_empty(self, skill_content):
+        frontmatter = skill_content.split("---")[1]
+        # Description should be substantive (>50 chars after the key)
+        assert "description:" in frontmatter
+        desc_start = frontmatter.index("description:")
+        desc_section = frontmatter[desc_start:desc_start + 200]
+        assert len(desc_section) > 60, "Description should be substantive"
+
+    def test_metadata_version(self, skill_content):
+        frontmatter = skill_content.split("---")[1]
+        assert "version:" in frontmatter
+
+    def test_metadata_author(self, skill_content):
+        frontmatter = skill_content.split("---")[1]
+        assert "author:" in frontmatter
+
+    def test_compatibility_field(self, skill_content):
+        frontmatter = skill_content.split("---")[1]
+        assert "compatibility:" in frontmatter
 
 
 class TestStep1ParseContext:

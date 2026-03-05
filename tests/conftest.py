@@ -4,13 +4,14 @@ import pytest
 from pathlib import Path
 
 PROJECT_DIR = Path(__file__).parent.parent
-SKILL_PATH = PROJECT_DIR / ".claude" / "commands" / "evaluate.md"
+SKILL_PATH = PROJECT_DIR / "evaluate" / "SKILL.md"
+LEGACY_SKILL_PATH = PROJECT_DIR / ".claude" / "commands" / "evaluate.md"
 OUTPUTS_DIR = PROJECT_DIR / "outputs"
 
 
 @pytest.fixture
 def skill_content():
-    """Load the evaluate.md skill file content."""
+    """Load the SKILL.md skill file content."""
     return SKILL_PATH.read_text(encoding="utf-8")
 
 

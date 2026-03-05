@@ -153,7 +153,7 @@ Act as a market research analyst. Using the product context from Step 1, conduct
 3. Search for user complaints and frustrations with current solutions (forums, reviews, social media)
 4. Search for any regulatory or legal considerations in the product's domain
 
-Use the WebSearch tool for each query. Synthesize the findings into a **Market Context Brief** with these sections:
+Use the WebSearch tool for each query. **Budget: 4-6 targeted searches** — enough to cover competitors, market size, user complaints, and regulatory landscape without burning excess tokens. Synthesize the findings into a **Market Context Brief** with these sections:
 - **Competitive Landscape** — what competitors charge, their strengths/weaknesses, recent changes
 - **Market Size Signals** — any data points on market size, growth, or trends
 - **User Pain Signals** — real complaints found online about current solutions
@@ -214,7 +214,7 @@ Present all personas before continuing.
 
 For each persona, conduct a simulated interview. Fully adopt each persona's perspective and respond in character.
 
-**Parallel execution:** Launch one Agent call per persona. Each agent receives: (1) the product context from Step 1, (2) the Market Context Brief from Step 1.5 if available, (3) one persona's full profile from Step 2, and (4) the interview rules and topic list below. Each agent conducts the full interview in character and returns the transcript with sentiment, adoption verdict, key quotes, and consistency check. Launch all persona agents in a single message for parallel execution. If the Agent tool is not available (e.g., running via API), conduct interviews sequentially instead.
+**Parallel execution:** Launch one Agent call per persona. Each agent receives: (1) the product context from Step 1, (2) the Market Context Brief from Step 1.5 if available, (3) one persona's full profile from Step 2, and (4) the interview rules and topic list below. Each agent conducts the full interview in character and returns the transcript with sentiment, adoption verdict, key quotes, and consistency check. Launch all persona agents in a single message for parallel execution. If the Agent tool is not available (e.g., running via API), conduct interviews sequentially instead. If any individual Agent call fails, conduct that interview sequentially in the main thread rather than skipping it.
 
 **Behavioral rules:**
 - All personas react honestly. Skeptics should acknowledge genuine strengths they see. Enthusiasts should voice real concerns. Nobody is a caricature — real people have nuanced views.
@@ -415,7 +415,7 @@ Write the report with these sections:
 
 1. **Executive Summary** — 2-3 paragraphs synthesizing findings from both persona interviews and expert assessments. Lead with the most important truth, whether positive or negative. Call out the 1-2 most critical dimensions for this specific product.
 2. **Overall Score** with breakdown table (Problem Validity, Solution Fit, Market Demand, Competitive Position, Monetization Potential, plus any additional configured dimensions)
-3. **Key Findings** — top 5, each with supporting evidence and quotes
+3. **Key Findings** — top 5, ranked by impact × frequency (lead with the finding most likely to change the builder's plan), each with supporting evidence and quotes
 4. **Expert Assessments** — each expert's 2-3 paragraph synthesis with their domain-specific evaluation, key risks, and recommendation. Note where experts' assessments conflict. (Omit this section if `--no-experts` was used.)
 5. **Audience Segmentation** — most vs least promising user types
 6. **Risks and Concerns** — critical issues to address, including information gaps from Step 1
@@ -431,7 +431,7 @@ Frame all findings as hypotheses to validate with real users, not confirmed rese
 1. Create the `outputs/` directory if it doesn't exist (use Bash: `mkdir -p outputs`)
 2. Get today's date (use Bash: `date +%Y-%m-%d`)
 3. Derive a filename slug from the product name (lowercase, hyphens, max 50 chars)
-4. Write the full markdown report to `outputs/{date}-{slug}.md` using the Write tool
+4. Write the full markdown report to `outputs/{date}-{slug}.md` using the Write tool. Begin the report with a metadata block: `**Date:** {date}` · `**Evaluated by:** Early Feedback v{version}` · `**Config:** {persona count} personas, {expert count} experts, web research {on/off}` · `**Flags:** {flags used or "none"}`
 5. **HTML rendering:** If `render_report.py` exists (check with Bash: `test -f render_report.py`), use it: `python render_report.py "outputs/{date}-{slug}.md"`. Otherwise, generate a styled HTML report directly using the Write tool:
    - **Page structure:** `<!DOCTYPE html>` with viewport meta. Fixed left sidebar (260px) with table of contents built from h2/h3 headings as anchor links. Main content max-width 780px, 40px padding. Hide sidebar on screens <900px via `@media`.
    - **Typography:** System font stack (`-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif`). Body 15px, line-height 1.65. h1 28px bold, h2 22px with 1px top border separator, h3 17px semibold.

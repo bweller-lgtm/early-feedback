@@ -112,57 +112,12 @@ Web research runs automatically. Add `--deep` for a full research report with TA
 
 Each report includes: Executive Summary, Scored Breakdown, Key Findings with quotes, Expert Assessments, Audience Segmentation, Risks and Concerns, Recommendations, and Full Interview Transcripts.
 
-<details>
-<summary><strong>Flags</strong></summary>
-
 | Flag | What it does |
 |---|---|
-| `--no-web-search` | Skip web research (on by default) |
-| `--deep` | Produce a deep research report (TAM/SAM, competitive landscape, GTM playbook, experiments) |
-| `--experts N` | Set expert count (1-5, default 3) |
-| `--personas N` | Set persona count (4-12, default 8) |
+| `--no-web-search` | Skip web research (faster, no internet needed) |
 | `--no-experts` | Skip expert panel (faster, persona-only evaluation) |
+| `--deep` | Add a deep research report (TAM/SAM, GTM playbook, experiments) |
 | `--full` | Force full pipeline even if viability gate triggers early termination |
-| `--questions path` | Load custom interview questions from a file |
-| `--config path` | Use alternate config file |
-
-</details>
-
-<details>
-<summary><strong>Configuration</strong></summary>
-
-Create an optional `evaluate.config.yaml` for persistent settings:
-
-```yaml
-experts:
-  count: 4
-  custom:
-    - name: "Jane Smith"
-      domain: "Marketplace strategy & network effects"
-      credentials: "Former VP Growth at a top marketplace startup"
-
-personas:
-  count: 10
-  must_include:
-    - "enterprise buyer at Fortune 500"
-
-required_questions:
-  - "How does this compare to your current Salesforce workflow?"
-
-web_research: true
-deep_report: false
-
-scoring:
-  additional_dimensions:
-    - name: "Regulatory Risk"
-      strong: "Clear regulatory path"
-      moderate: "Some ambiguity"
-      weak: "Major regulatory barriers"
-```
-
-Optional external files (`experts.md`, `questions.md`, `context.md`) provide detailed expert profiles, custom questions, or additional market context.
-
-</details>
 
 <details>
 <summary><strong>Scoring Framework</strong></summary>
@@ -188,7 +143,7 @@ Optional external files (`experts.md`, `questions.md`, `context.md`) provide det
 <summary><strong>How It Works (8 steps + conditional branches)</strong></summary>
 
 ```
-Preamble   Parse flags, load config, load external files
+Preamble   Parse flags and optional config
 Step 1     Parse product context + assumption mapping (flag gaps, don't infer)
 Step 1.5   Web research (on by default, skip with --no-web-search)
 Step 2     Generate personas (organic sentiment, Rogers adoption tags, status quo attachment)
@@ -236,6 +191,69 @@ tests/
   validate_report.py            # Standalone CLI report validator
   conftest.py                   # Shared fixtures and sample report
 outputs/                        # Generated reports (gitignored)
-evaluate.config.yaml            # Optional configuration
-experts.md / questions.md / context.md  # Optional external files
 ```
+
+---
+
+## Advanced
+
+<details>
+<summary><strong>All flags</strong></summary>
+
+| Flag | What it does |
+|---|---|
+| `--no-web-search` | Skip web research (on by default) |
+| `--deep` | Produce a deep research report (TAM/SAM, competitive landscape, GTM playbook, experiments) |
+| `--experts N` | Set expert count (1-5, default 3) |
+| `--personas N` | Set persona count (4-12, default 8) |
+| `--no-experts` | Skip expert panel (faster, persona-only evaluation) |
+| `--full` | Force full pipeline even if viability gate triggers early termination |
+| `--questions path` | Load custom interview questions from a file |
+| `--config path` | Use alternate config file |
+
+</details>
+
+<details>
+<summary><strong>Configuration file</strong></summary>
+
+Create an optional `evaluate.config.yaml` for persistent settings:
+
+```yaml
+experts:
+  count: 4
+  custom:
+    - name: "Jane Smith"
+      domain: "Marketplace strategy & network effects"
+      credentials: "Former VP Growth at a top marketplace startup"
+
+personas:
+  count: 10
+  must_include:
+    - "enterprise buyer at Fortune 500"
+
+required_questions:
+  - "How does this compare to your current Salesforce workflow?"
+
+web_research: true
+deep_report: false
+
+scoring:
+  additional_dimensions:
+    - name: "Regulatory Risk"
+      strong: "Clear regulatory path"
+      moderate: "Some ambiguity"
+      weak: "Major regulatory barriers"
+```
+
+</details>
+
+<details>
+<summary><strong>External files</strong></summary>
+
+Place these optional files in the project root to customize evaluations:
+
+- `experts.md` — Detailed expert profiles that override auto-selection
+- `questions.md` — Custom questions included in every interview
+- `context.md` — Additional market context factored into all analysis steps
+
+</details>

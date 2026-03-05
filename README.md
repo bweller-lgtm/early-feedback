@@ -1,47 +1,47 @@
-<p align="center"><strong>Simulated Innovation</strong></p>
-
-<h3 align="center">Brutally honest startup evaluation. Synthetic personas. Domain experts. No sugar-coating.</h3>
-
 <p align="center">
-Feed it a pitch deck, a README, or a one-liner. It interviews synthetic users, assembles a domain expert panel, and produces a scored evaluation report that tells you what's actually wrong — not what you want to hear.
+  <img src="https://raw.githubusercontent.com/bweller-lgtm/SimulatedInnovation/master/assets/logo_icon.png" alt="Simulated Innovation" width="200">
 </p>
+
+<h1 align="center">Simulated Innovation</h1>
+
+<p align="center"><strong>Brutally honest startup evaluation. No sugar-coating.</strong></p>
+
+Feed it a pitch deck, a README, or a one-liner. It interviews synthetic users, assembles a domain expert panel, and produces a scored evaluation report that tells you what's actually wrong — not what you want to hear.
+
+We fed it "a freelancer invoicing tool with cash flow prediction." It came back 6.8/10 and flagged a cold-start problem nobody mentioned — the flagship feature needs 6 months of data to work, which new users don't have.
 
 ---
 
-## Demo: Real Evaluation Output
-
-A freelancer invoicing tool with cash flow prediction was evaluated. Here's what came back:
+## Demo
 
 <p align="center">
-  <img src="assets/demo_scores.png" alt="Scored evaluation with color-coded dimension breakdown" width="720">
+  <img src="https://raw.githubusercontent.com/bweller-lgtm/SimulatedInnovation/master/assets/demo_scores.png" alt="Scored evaluation with color-coded dimension breakdown" width="720">
 </p>
 
-The tool identified **data cold-start risk** as the critical dimension for this specific product: the flagship cash flow prediction needs 6-12 months of billing history, which new users don't have on day one. Price sensitivity split sharply — solo freelancers capped at $15/month while agency owners said $50/month without blinking.
+Scored across standard dimensions plus product-specific critical dimensions identified automatically.
 
 <p align="center">
-  <img src="assets/demo_interview.png" alt="Full Q&A persona interview transcripts" width="720">
+  <img src="https://raw.githubusercontent.com/bweller-lgtm/SimulatedInnovation/master/assets/demo_interview.png" alt="Full Q&A persona interview transcripts" width="720">
 </p>
 
-Each persona gets a full interview — not a summary. Enthusiasts voice real concerns. Skeptics acknowledge genuine strengths. The tool captures what people would actually say, not what you want to hear.
+Full Q&A transcripts — not summaries. Enthusiasts voice concerns. Skeptics acknowledge strengths.
 
 <p align="center">
-  <img src="assets/demo_experts.png" alt="Expert panel with independent domain assessments" width="720">
+  <img src="https://raw.githubusercontent.com/bweller-lgtm/SimulatedInnovation/master/assets/demo_experts.png" alt="Expert panel with independent domain assessments" width="720">
 </p>
 
-Experts assess independently. Here, one says the prediction feature is the only thing worth paying for, another says integrations matter more for acquisition, and a third flags that the prediction feature won't even work for new users. That tension is the signal.
+Independent expert assessments. When their conclusions conflict, the tension is preserved.
 
 ---
 
 ## What Makes This Different
 
-Most AI evaluation tools produce encouraging summaries. This one is designed to be **adversarial by default**:
-
-- **Organic sentiment** — personas react honestly. A terrible idea gets mostly skeptics. No forced "2 enthusiasts, 3 neutral" distribution.
-- **Viability gate** — if interviews reveal universal rejection, the tool produces a short critical-issues report and stops. No 5,000-word report for a dead idea.
-- **Independent expert assessments** — experts evaluate through their own lens, not each other's. When their conclusions naturally conflict, the tension is preserved.
-- **Information gaps flagged** — missing info is called out as gaps, not filled with optimistic assumptions.
-- **Full scoring scale** — scores of 2 or 9 are valid when evidence supports them. No gravitating to the safe 5-7 range.
-- **Product-specific critical dimensions** — the tool identifies the 1-2 dimensions that matter most for *this specific product* and calls them out.
+- **Organic sentiment** — personas react honestly. A terrible idea gets mostly skeptics. No forced distribution.
+- **Viability gate** — universal rejection produces a short critical-issues report and stops. No 5,000-word report for a dead idea.
+- **Independent experts** — each evaluates through their own lens. Natural conflicts are signal, not noise.
+- **Information gaps flagged** — missing info is called out, not filled with optimistic assumptions.
+- **Full scoring scale** — scores of 2 or 9 are valid when evidence supports them.
+- **Product-specific critical dimensions** — identifies what matters most for *this specific product*.
 
 ---
 
@@ -57,21 +57,29 @@ cd SimulatedInnovation
 Then in Claude Code:
 
 ```
-# Evaluate from a pitch deck
-/evaluate pitch-deck.pdf
-
-# Evaluate an entire project folder
-/evaluate ../my-startup/
-
-# Evaluate an idea directly
 /evaluate A marketplace for freelance data scientists with built-in project scoping and escrow
 
-# With optional features
+/evaluate pitch-deck.pdf
+
+/evaluate ../my-startup/
+
 /evaluate --web-search --deep ../my-startup/
-/evaluate --experts 5 --personas 10 pitch-deck.pdf
 ```
 
 That's it. No extra API keys, no dependencies, no setup beyond Claude Code itself.
+
+---
+
+## What You Can Evaluate
+
+| Input | Example | What happens |
+|---|---|---|
+| **A one-liner** | `/evaluate An app that...` | Evaluates the description directly |
+| **A pitch deck** | `/evaluate pitch-deck.pdf` | Reads the PDF and evaluates |
+| **A codebase** | `/evaluate ./my-project/` | Reads all project files and synthesizes the idea |
+| **A doc** | `/evaluate idea.docx` | Supports `.pdf`, `.docx`, `.pptx`, `.xlsx`, code files |
+
+Add `--web-search` to research real competitors first. Add `--deep` for a full research report with TAM/SAM, GTM playbook, and experiments to run.
 
 ---
 
@@ -83,32 +91,10 @@ That's it. No extra API keys, no dependencies, no setup beyond Claude Code itsel
 | **Critical issues report** | `outputs/YYYY-MM-DD-product-name-critical.md` | If the idea fails the viability gate |
 | **Deep research report** | `outputs/YYYY-MM-DD-product-name-deep-research.md` | With `--deep` flag |
 
-Each evaluation report includes:
+Each report includes: Executive Summary, Scored Breakdown, Key Findings with quotes, Expert Assessments, Audience Segmentation, Risks and Concerns, Recommendations, and Full Interview Transcripts.
 
-1. **Executive Summary** — leads with the most important truth, positive or negative
-2. **Scored Breakdown** — 5 standard dimensions + product-specific dimensions, full 1-10 scale
-3. **Key Findings** — top 5, each with supporting quotes from interviews
-4. **Expert Assessments** — independent domain expert syntheses with natural tensions preserved
-5. **Audience Segmentation** — who this is for and who it isn't
-6. **Risks and Concerns** — including information gaps from the input
-7. **Recommendations** — prioritized, actionable
-8. **Full Interview Transcripts** — every Q&A exchange for all personas + expert follow-ups
-
----
-
-## Input Modes
-
-| Mode | Example | What happens |
-|---|---|---|
-| **Inline text** | `/evaluate An app that...` | Evaluates the description directly |
-| **Single file** | `/evaluate idea.txt` | Reads and evaluates (supports `.pdf`, `.docx`, `.pptx`, `.xlsx`, code files, etc.) |
-| **Directory** | `/evaluate ./my-project/` | Reads all project files and synthesizes the idea from everything found |
-
-Directory mode reads: `.md`, `.txt`, `.py`, `.js`, `.ts`, `.tsx`, `.json`, `.yaml`, `.toml`, `.html`, `.css`, `.pdf`, `.docx`, `.pptx`, `.xlsx` — and skips `node_modules/`, `.git/`, and build directories.
-
----
-
-## Flags
+<details>
+<summary><strong>Flags</strong></summary>
 
 | Flag | What it does |
 |---|---|
@@ -121,9 +107,10 @@ Directory mode reads: `.md`, `.txt`, `.py`, `.js`, `.ts`, `.tsx`, `.json`, `.yam
 | `--questions path` | Load custom interview questions from a file |
 | `--config path` | Use alternate config file |
 
----
+</details>
 
-## Configuration
+<details>
+<summary><strong>Configuration</strong></summary>
 
 Create an optional `evaluate.config.yaml` for persistent settings:
 
@@ -156,12 +143,30 @@ scoring:
 
 Optional external files (`experts.md`, `questions.md`, `context.md`) provide detailed expert profiles, custom questions, or additional market context.
 
----
-
-## How It Works
+</details>
 
 <details>
-<summary><strong>8 steps + conditional branches</strong></summary>
+<summary><strong>Scoring Framework</strong></summary>
+
+| Dimension | 8+ (Strong) | 6-7 (Solid) | 4-5 (Moderate) | <4 (Weak) |
+|---|---|---|---|---|
+| Problem Validity | Universal pain | Clear pain, limited scope | Nice-to-have | Solution looking for problem |
+| Solution Fit | Elegant fit | Good fit, gaps remain | Partial | Mismatch |
+| Market Demand | Large eager market | Mid-size or growing | Niche | Too small or shrinking |
+| Competitive Position | Clear differentiation | Differentiated but contested | Crowded but viable | Dominated |
+| Monetization Potential | Clear willingness to pay | Some WTP signals | Uncertain pricing | Hard to monetize |
+
+| Overall Score | Verdict |
+|---|---|
+| 7.5+ | Strong opportunity — pursue with confidence |
+| 5.5 - 7.4 | Promising but needs refinement |
+| 3.5 - 5.4 | Significant concerns — pivot or validate further |
+| < 3.5 | Reconsider fundamentally |
+
+</details>
+
+<details>
+<summary><strong>How It Works (8 steps + conditional branches)</strong></summary>
 
 ```
 Preamble   Parse flags, load config, load external files
@@ -181,39 +186,23 @@ Step 8     Deep research report (conditional: --deep)
 
 ---
 
-## Scoring Framework
-
-| Dimension | 8+ (Strong) | 6-7 (Solid) | 4-5 (Moderate) | <4 (Weak) |
-|---|---|---|---|---|
-| Problem Validity | Universal pain | Clear pain, limited scope | Nice-to-have | Solution looking for problem |
-| Solution Fit | Elegant fit | Good fit, gaps remain | Partial | Mismatch |
-| Market Demand | Large eager market | Mid-size or growing | Niche | Too small or shrinking |
-| Competitive Position | Clear differentiation | Differentiated but contested | Crowded but viable | Dominated |
-| Monetization Potential | Clear willingness to pay | Some WTP signals | Uncertain pricing | Hard to monetize |
-
-| Overall Score | Verdict |
-|---|---|
-| 7.5+ | Strong opportunity — pursue with confidence |
-| 5.5 - 7.4 | Promising but needs refinement |
-| 3.5 - 5.4 | Significant concerns — pivot or validate further |
-| < 3.5 | Reconsider fundamentally |
-
----
-
 ## Tests
+
+<details>
+<summary><strong>187 tests</strong> — scoring, honesty guardrails, organic sentiment, viability gate, expert panel, configuration, report structure</summary>
 
 ```bash
 pip install pytest
 python -m pytest tests/ -v
 ```
 
-187 tests validate: scoring framework, organic persona sentiment, honesty guardrails, adaptive interviews, viability gate, expert panel, configuration support, inline flags, web research, deep reports, external files, and report structure.
-
 Validate any generated report:
 
 ```bash
 python tests/validate_report.py outputs/YYYY-MM-DD-my-product.md
 ```
+
+</details>
 
 ---
 

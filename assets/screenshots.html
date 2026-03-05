@@ -96,9 +96,24 @@
   }
   .dim-note {
     font-size: 11px;
-    color: #8b949e;
-    margin-left: 8px;
-    white-space: nowrap;
+    font-weight: 500;
+    color: #f85149;
+    background: rgba(248, 81, 73, 0.1);
+    padding: 3px 10px;
+    border-radius: 10px;
+    margin-top: 6px;
+    display: inline-block;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+  .dim-row-critical {
+    display: flex;
+    flex-direction: column;
+    padding: 10px 0;
+  }
+  .dim-row-critical .dim-inline {
+    display: flex;
+    align-items: center;
   }
 
   .color-green { background: #3fb950; }
@@ -244,11 +259,13 @@
     <div class="dim-bar-wrap"><div class="dim-bar color-green" style="width:75%"></div></div>
     <div class="dim-score text-green">7.5</div>
   </div>
-  <div class="dim-row">
-    <div class="dim-name">Data Cold-Start Risk</div>
-    <div class="dim-bar-wrap"><div class="dim-bar color-red" style="width:40%"></div></div>
-    <div class="dim-score text-red">4.0</div>
-    <div class="dim-note">critical dimension</div>
+  <div class="dim-row-critical">
+    <div class="dim-inline">
+      <div class="dim-name">Data Cold-Start Risk</div>
+      <div class="dim-bar-wrap"><div class="dim-bar color-red" style="width:40%"></div></div>
+      <div class="dim-score text-red">4.0</div>
+    </div>
+    <div class="dim-note">product-specific critical dimension</div>
   </div>
 
   <div class="sentiment-row">

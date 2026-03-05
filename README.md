@@ -5,7 +5,7 @@
 <h1 align="center">Early Feedback</h1>
 
 <p align="center"><strong>Get honest feedback on your product idea before you build it.</strong></p>
-<p align="center"><code>v1.8.1</code> · 223 tests · MIT License</p>
+<p align="center"><code>v1.8.1</code> · 224 tests · MIT License</p>
 
 Describe your idea, drop in a pitch deck, or point it at a codebase. Early Feedback interviews synthetic users, assembles a domain expert panel, and tells you what's actually wrong — before you spend months finding out the hard way.
 
@@ -165,7 +165,7 @@ Step 8     Deep research report (conditional: --deep)
 ## Tests
 
 <details>
-<summary><strong>223 tests</strong> — scoring, honesty guardrails, organic sentiment, viability gate, expert panel, parallel execution, research grounding, benchmark comparison, safety and privacy, configuration, report structure</summary>
+<summary><strong>224 tests</strong> — scoring, honesty guardrails, organic sentiment, viability gate, expert panel, parallel execution, research grounding, benchmark comparison, safety and privacy, configuration, report structure</summary>
 
 ```bash
 pip install pytest
@@ -240,6 +240,10 @@ required_questions:
 
 web_research: true
 deep_report: false
+
+input_budget:
+  max_files: 60       # default 40
+  max_chars: 500000   # default 250000
 
 scoring:
   additional_dimensions:

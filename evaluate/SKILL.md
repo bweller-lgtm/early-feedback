@@ -53,6 +53,8 @@ Config keys and defaults:
 - `web_research`: true
 - `deep_report`: false
 - `scoring.additional_dimensions`: [] (list of {name, strong, moderate, weak})
+- `input_budget.max_files`: 40 (max files to read before switching to prioritized reading)
+- `input_budget.max_chars`: 250000 (max total characters before switching to prioritized reading)
 
 If no config file exists, use all defaults. The skill works perfectly without a config file.
 
@@ -96,7 +98,7 @@ Determine the input type:
 
 1. **Directory path** — If the input is a directory (check with Bash: `test -d`), use a two-pass strategy:
 
-   **Pass 1: Glob scan.** Use Glob to find files matching `**/*.md`, `**/*.txt`, `**/*.py`, `**/*.json`, `**/*.yaml`, `**/*.yml`, `**/*.toml`, `**/*.html`, `**/*.css`, `**/*.js`, `**/*.ts`, `**/*.tsx`, `**/*.jsx`, `**/*.pdf`, `**/*.docx`, `**/*.pptx`, `**/*.xlsx`. If results are clean (no dependency directories dominating), read all discovered files. **Hard budget:** If the clean scan returns more than 40 files or the cumulative content exceeds 250K characters, switch to Pass 2 (prioritized reading) instead of reading everything.
+   **Pass 1: Glob scan.** Use Glob to find files matching `**/*.md`, `**/*.txt`, `**/*.py`, `**/*.json`, `**/*.yaml`, `**/*.yml`, `**/*.toml`, `**/*.html`, `**/*.css`, `**/*.js`, `**/*.ts`, `**/*.tsx`, `**/*.jsx`, `**/*.pdf`, `**/*.docx`, `**/*.pptx`, `**/*.xlsx`. If results are clean (no dependency directories dominating), read all discovered files. **Hard budget:** If the clean scan returns more than `input_budget.max_files` files (default 40) or the cumulative content exceeds `input_budget.max_chars` characters (default 250K), switch to Pass 2 (prioritized reading) instead of reading everything.
 
    **Pass 2: Prioritized fallback.** If Glob results are polluted by `node_modules/`, `.git/`, `__pycache__/`, `vendor/`, `dist/`, `build/`, or other dependency/build directories (visible as hundreds of matches from those paths), do NOT attempt to read everything. Instead, read files in this priority order until you have enough context to understand the product:
    1. Top-level `README.md` (or `README.*`)

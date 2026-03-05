@@ -913,6 +913,12 @@ class TestSafetyAndQuality:
         assert "40 files" in lower or "40" in lower
         assert "250k" in lower or "250,000" in lower
 
+    def test_input_budget_configurable(self, skill_content):
+        """Input budget limits should be configurable via config file."""
+        lower = skill_content.lower()
+        assert "input_budget.max_files" in lower
+        assert "input_budget.max_chars" in lower
+
     def test_scoring_formula_defined(self, skill_content):
         """Skill should define how the overall score is computed."""
         lower = skill_content.lower()

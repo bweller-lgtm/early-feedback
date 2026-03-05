@@ -827,3 +827,22 @@ class TestParallelExecution:
     def test_api_fallback(self, skill_content):
         lower = skill_content.lower()
         assert "agent tool is not available" in lower or "sequentially" in lower
+
+
+class TestResearchGrounding:
+    """Verify support for grounding personas in prior user research."""
+
+    def test_research_folder_support(self, skill_content):
+        assert "research/" in skill_content
+
+    def test_research_flag(self, skill_content):
+        assert "--research" in skill_content
+
+    def test_research_grounding_in_personas(self, skill_content):
+        lower = skill_content.lower()
+        assert "research grounding" in lower or ("research" in lower and "ground" in lower)
+
+    def test_research_gap_flagging(self, skill_content):
+        """Should flag gaps between research data and generated personas."""
+        lower = skill_content.lower()
+        assert "gap" in lower and "research" in lower

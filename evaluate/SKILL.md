@@ -10,7 +10,7 @@ license: MIT
 compatibility: Requires Claude Code with Bash, Read, Glob, and Write tools. Optional WebSearch for market research.
 metadata:
   author: bweller-lgtm
-  version: "1.5.0"
+  version: "1.6.0"
   repository: "https://github.com/bweller-lgtm/early-feedback"
 ---
 
@@ -35,6 +35,7 @@ Supported flags:
 - `--full` — force full pipeline even if the viability gate (Step 3.5) triggers early termination
 - `--questions path` — load custom interview questions from a file
 - `--config path` — use alternate config file path
+- `--research path` — load prior research data from a directory
 
 Use Bash to extract flags: check if the arguments string starts with `--` tokens. Everything after the last flag/value pair is the idea input.
 
@@ -62,6 +63,7 @@ Check for these optional files in the current directory (use Bash: `test -f`):
 - `experts.md` — If found, read it. Contains detailed expert profiles that override auto-selection in Step 4.
 - `questions.md` — If found, read it. Contains custom questions that must be included in interviews (Step 3).
 - `context.md` — If found, read it. Contains additional market context to factor into all analysis steps.
+- `research/` directory — If found (or specified via `--research`), read all files within (use Glob: `research/**/*`). Contains prior user research: interview transcripts, survey results, support logs, persona docs, or previous Early Feedback reports. Used to ground persona generation in Step 2.
 
 ### Resolved Configuration
 
@@ -75,6 +77,7 @@ After parsing, state the resolved configuration:
 - Custom experts: {count} loaded / none
 - Additional context: loaded / none
 - Additional scoring dimensions: {list} / none
+- Research data: loaded ({N} files) / none
 
 ---
 
@@ -184,6 +187,8 @@ After defining each persona's background and current workflow, simulate their ho
 - If `personas.must_include` is configured, include those specific persona types
 
 **Diversity validation:** After generating all personas, verify coverage across at least 3 distinct segments of: role/function, company size, and tech sophistication. If personas cluster in one segment (e.g., all mid-size SaaS companies, all technical users), replace the least differentiated persona to fill the gap.
+
+**Research grounding:** If a research folder was loaded, analyze its contents for real user demographics, roles, pain points, quotes, and segment distributions. Ground persona generation in this data: use real profiles as persona anchors, incorporate actual quotes as response seeds, and match the observed segment distribution. In the diversity validation above, also flag gaps between the research data and generated personas (e.g., "your data shows 70% non-technical users but only 2 of 8 personas are non-technical").
 
 If web research was performed in Step 1.5, use real competitor names, realistic pricing anchors, and actual pain points discovered in the research when building personas.
 

@@ -5,7 +5,7 @@
 <h1 align="center">Early Feedback</h1>
 
 <p align="center"><strong>Get honest feedback on your product idea before you build it.</strong></p>
-<p align="center"><code>v1.5.0</code> · 208 tests · MIT License</p>
+<p align="center"><code>v1.6.0</code> · 212 tests · MIT License</p>
 
 Describe your idea, drop in a pitch deck, or point it at a codebase. Early Feedback interviews synthetic users, assembles a domain expert panel, and tells you what's actually wrong — before you spend months finding out the hard way.
 
@@ -210,6 +210,7 @@ outputs/                        # Generated reports (gitignored)
 | `--full` | Force full pipeline even if viability gate triggers early termination |
 | `--questions path` | Load custom interview questions from a file |
 | `--config path` | Use alternate config file |
+| `--research path` | Load prior user research from a directory to ground personas |
 
 </details>
 
@@ -255,5 +256,6 @@ Place these optional files in the project root to customize evaluations:
 - `experts.md` — Detailed expert profiles that override auto-selection
 - `questions.md` — Custom questions included in every interview
 - `context.md` — Additional market context factored into all analysis steps
+- `research/` — Prior user research (interview transcripts, survey results, support logs, previous reports). Personas are grounded in this data — real demographics, real quotes, real segment distributions. Gaps between your data and generated personas are flagged.
 
 </details>

@@ -5,7 +5,7 @@
 <h1 align="center">Early Feedback</h1>
 
 <p align="center"><strong>Get honest feedback on your product idea before you build it.</strong></p>
-<p align="center"><code>v1.7.3</code> · 217 tests · MIT License</p>
+<p align="center"><code>v1.8.0</code> · 219 tests · MIT License</p>
 
 Describe your idea, drop in a pitch deck, or point it at a codebase. Early Feedback interviews synthetic users, assembles a domain expert panel, and tells you what's actually wrong — before you spend months finding out the hard way.
 
@@ -112,7 +112,7 @@ Web research runs automatically. Add `--deep` for a full research report with TA
 | **Deep research report** | `outputs/YYYY-MM-DD-product-name-deep-research.md` | With `--deep` flag |
 | **HTML report** | `outputs/YYYY-MM-DD-product-name.html` | `python render_report.py outputs/*.md` |
 
-Each report includes: Executive Summary, Scored Breakdown, Key Findings with quotes, Expert Assessments, Audience Segmentation, Risks and Concerns, Recommendations, and Full Interview Transcripts.
+Each report includes: Executive Summary, Scored Breakdown, Key Findings with quotes, Expert Assessments, Audience Segmentation, Risks and Concerns, Recommendations, Confidence Calibration, Validation Playbook (ranked hypotheses with specific questions to ask real people and who to ask), and Full Interview Transcripts.
 
 | Flag | What it does |
 |---|---|
@@ -165,7 +165,7 @@ Step 8     Deep research report (conditional: --deep)
 ## Tests
 
 <details>
-<summary><strong>217 tests</strong> — scoring, honesty guardrails, organic sentiment, viability gate, expert panel, parallel execution, research grounding, benchmark comparison, configuration, report structure</summary>
+<summary><strong>219 tests</strong> — scoring, honesty guardrails, organic sentiment, viability gate, expert panel, parallel execution, research grounding, benchmark comparison, configuration, report structure</summary>
 
 ```bash
 pip install pytest

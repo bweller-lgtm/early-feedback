@@ -406,14 +406,9 @@ Write the report with these sections:
 5. **Audience Segmentation** — most vs least promising user types
 6. **Risks and Concerns** — critical issues to address, including information gaps from Step 1
 7. **Recommendations** — prioritized, actionable next steps
-8. **Appendix: Interview Transcripts** — full Q&A dialogue for each persona (initial interviews + expert follow-up questions) with sentiment, adoption verdict, and key quotes
-
-### Confidence Calibration
-
-The report must include a confidence calibration section:
-- **Directionally reliable:** Relative feature rankings, major deal-breakers, adoption barriers, sentiment patterns
-- **Uncertain:** Specific price points, absolute adoption percentages, market size estimates
-- **Treat as hypotheses:** Tail-end user behaviors, culturally specific reactions, competitive responses
+8. **Confidence Calibration** — categorize findings: *Directionally reliable* (feature rankings, deal-breakers, sentiment patterns), *Uncertain* (price points, adoption percentages, market size), *Treat as hypotheses* (tail-end behaviors, cultural reactions, competitive responses)
+9. **Validation Playbook** — the bridge from synthetic findings to real research. For each of the top 3-5 testable hypotheses (drawn from leap-of-faith assumptions in Step 1 and "uncertain"/"hypotheses" items from Confidence Calibration), provide: the hypothesis stated clearly, 1-2 specific interview or survey questions to test it with real people, and who to ask (target respondent profile — role, company size, context). Rank by impact x testability. Include suggested method (5 customer interviews, landing page test, pricing survey, etc.) and what outcome would confirm or kill the hypothesis.
+10. **Appendix: Interview Transcripts** — full Q&A dialogue for each persona (initial interviews + expert follow-up questions) with sentiment, adoption verdict, and key quotes
 
 Frame all findings as hypotheses to validate with real users, not confirmed research. This tool generates the questions worth asking — not the final answers.
 

@@ -547,6 +547,8 @@ class TestStep7ReportStructure:
         "audience segmentation",
         "risks",
         "recommendations",
+        "confidence calibration",
+        "validation playbook",
         "appendix",
     ]
 
@@ -569,6 +571,20 @@ class TestStep7ReportStructure:
     def test_expert_assessments_in_report(self, skill_content):
         lower = skill_content.lower()
         assert "expert assessments" in lower
+
+    def test_validation_playbook_structure(self, skill_content):
+        """Validation playbook should bridge hypotheses to real research actions."""
+        lower = skill_content.lower()
+        assert "validation playbook" in lower
+        assert "who to ask" in lower or "respondent profile" in lower
+        assert "interview" in lower or "survey" in lower
+        assert "hypothesis" in lower or "hypotheses" in lower
+
+    def test_validation_playbook_links_to_assumptions(self, skill_content):
+        """Playbook should draw from leap-of-faith assumptions and confidence tiers."""
+        lower = skill_content.lower()
+        assert "leap-of-faith" in lower or "leap of faith" in lower
+        assert "confidence calibration" in lower or "uncertain" in lower
 
 
 class TestStep7Output:

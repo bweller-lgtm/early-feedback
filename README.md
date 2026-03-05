@@ -110,6 +110,7 @@ Web research runs automatically. Add `--deep` for a full research report with TA
 | **Evaluation report** | `outputs/YYYY-MM-DD-product-name.md` | Always |
 | **Critical issues report** | `outputs/YYYY-MM-DD-product-name-critical.md` | If the idea fails the viability gate |
 | **Deep research report** | `outputs/YYYY-MM-DD-product-name-deep-research.md` | With `--deep` flag |
+| **HTML report** | `outputs/YYYY-MM-DD-product-name.html` | `python render_report.py outputs/*.md` |
 
 Each report includes: Executive Summary, Scored Breakdown, Key Findings with quotes, Expert Assessments, Audience Segmentation, Risks and Concerns, Recommendations, and Full Interview Transcripts.
 
@@ -186,9 +187,10 @@ python tests/validate_report.py outputs/YYYY-MM-DD-my-product.md
 ```
 evaluate/SKILL.md               # The skill (Agent Skills standard format)
 .claude/commands/evaluate.md    # Legacy command (keeps /evaluate working without plugin install)
+render_report.py                # Convert markdown reports to styled HTML
 tests/
-  test_skill_content.py         # 168 tests: skill methodology + SKILL.md format validation
-  test_report_format.py         # 29 tests: report structure validation
+  test_skill_content.py         # Skill methodology + SKILL.md format validation
+  test_report_format.py         # Report structure validation
   validate_report.py            # Standalone CLI report validator
   conftest.py                   # Shared fixtures and sample report
 outputs/                        # Generated reports (gitignored)

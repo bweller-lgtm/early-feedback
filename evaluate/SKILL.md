@@ -11,7 +11,7 @@ license: MIT
 compatibility: Requires Claude Code with Bash, Read, Glob, and Write tools. Optional WebSearch for market research.
 metadata:
   author: bweller-lgtm
-  version: "1.8.1"
+  version: "1.8.2"
   repository: "https://github.com/bweller-lgtm/early-feedback"
 ---
 

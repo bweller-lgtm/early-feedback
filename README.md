@@ -9,7 +9,7 @@
 <h1 align="center">Early Feedback</h1>
 
 <p align="center"><strong>Get honest feedback on your product idea before you build it.</strong></p>
-<p align="center"><code>v1.8.1</code> · 225 tests · MIT License</p>
+<p align="center"><code>v1.8.1</code> · 267 tests · MIT License</p>
 
 Describe your idea, drop in a pitch deck, or point it at a codebase. Early Feedback interviews synthetic users, assembles a domain expert panel, and tells you what's actually wrong — before you spend months finding out the hard way.
 
@@ -48,6 +48,10 @@ Full Q&A transcripts — not summaries. Enthusiasts voice concerns. Skeptics ack
 </p>
 
 Independent expert assessments. When their conclusions conflict, the tension is preserved.
+
+### Example Reports
+
+See [`examples/`](examples/) for two real evaluation reports — a mid-score [InvoiceFlow](examples/invoiceflow.md) (6.8/10) and a low-score [BrickDreams](examples/brickdreams.md) (4.4/10) — showing the pipeline produces honest, differentiated output.
 
 ---
 
@@ -181,7 +185,7 @@ Step 8     Deep research report (conditional: --deep)
 ## Tests
 
 <details>
-<summary><strong>225 tests</strong> — scoring, honesty guardrails, organic sentiment, viability gate, expert panel, parallel execution, research grounding, benchmark comparison, safety and privacy, configuration, report structure</summary>
+<summary><strong>267 tests</strong> — scoring, honesty guardrails, organic sentiment, viability gate, expert panel, parallel execution, research grounding, benchmark comparison, safety and privacy, configuration, report structure, real-report validation</summary>
 
 ```bash
 pip install pytest
@@ -204,9 +208,11 @@ python tests/validate_report.py outputs/YYYY-MM-DD-my-product.md
 evaluate/SKILL.md               # The skill (Agent Skills standard format)
 .claude/commands/evaluate.md    # Legacy command (keeps /evaluate working without plugin install)
 render_report.py                # Convert markdown reports to styled HTML
+examples/                       # Real evaluation reports (InvoiceFlow 6.8, BrickDreams 4.4)
 tests/
   test_skill_content.py         # Skill methodology + SKILL.md format validation
   test_report_format.py         # Report structure validation
+  test_real_reports.py          # Real-report validation (runs against examples/)
   validate_report.py            # Standalone CLI report validator
   conftest.py                   # Shared fixtures and sample report
 outputs/                        # Generated reports (gitignored)

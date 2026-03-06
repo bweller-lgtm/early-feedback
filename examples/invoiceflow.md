@@ -1,37 +1,8 @@
-"""Shared fixtures for Early Feedback tests."""
+**Date:** 2026-01-15
+**Evaluated by:** Early Feedback v1.8.0
+**Config:** 8 personas, 3 experts, web research on
+**Flags:** none
 
-import pytest
-from pathlib import Path
-
-PROJECT_DIR = Path(__file__).parent.parent
-SKILL_PATH = PROJECT_DIR / "evaluate" / "SKILL.md"
-LEGACY_SKILL_PATH = PROJECT_DIR / ".claude" / "commands" / "evaluate.md"
-OUTPUTS_DIR = PROJECT_DIR / "outputs"
-EXAMPLES_DIR = PROJECT_DIR / "examples"
-
-
-def _example_report_paths():
-    if EXAMPLES_DIR.exists():
-        return [p for p in sorted(EXAMPLES_DIR.glob("*.md")) if p.name != "README.md"]
-    return []
-
-
-@pytest.fixture(params=_example_report_paths(), ids=lambda p: p.stem)
-def real_report(request):
-    """Load a real example report for validation."""
-    return request.param.read_text(encoding="utf-8")
-
-
-@pytest.fixture
-def skill_content():
-    """Load the SKILL.md skill file content."""
-    return SKILL_PATH.read_text(encoding="utf-8")
-
-
-@pytest.fixture
-def sample_report():
-    """A minimal well-formed report for testing the validator."""
-    return """\
 # InvoiceFlow Evaluation
 
 ## Executive Summary
@@ -335,4 +306,3 @@ A: FreshBooks got expensive and bloated. Wave started showing ads and pushing th
 
 **Q: If InvoiceFlow could import your 3 years of FreshBooks data on day one and immediately show cash flow predictions based on your history, would that change your urgency to switch?**
 A: That would be a game-changer. The reason I haven't switched yet is the history issue -- I don't want to start from scratch. If I could see predictions based on my real data from day one, I'd switch this week.
-"""

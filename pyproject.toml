@@ -3,6 +3,13 @@ name = "early-feedback"
 version = "1.8.1"
 description = "Get honest feedback on product ideas before you build them"
 requires-python = ">=3.11"
+license = "MIT"
+readme = "README.md"
+authors = [{ name = "bweller-lgtm" }]
+keywords = ["product-evaluation", "synthetic-research", "claude-code", "agent-skill"]
+
+[project.urls]
+Repository = "https://github.com/bweller-lgtm/early-feedback"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

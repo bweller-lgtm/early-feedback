@@ -19,10 +19,18 @@ async function main() {
   await page.goto(htmlPath);
   await page.waitForLoadState("networkidle");
 
-  console.log("Generating screenshots...");
+  // Dark theme (default)
+  console.log("Generating dark screenshots...");
   await screenshot(page, "#score-card", "demo_scores.png");
   await screenshot(page, "#interview-card", "demo_interview.png");
   await screenshot(page, "#experts-card", "demo_experts.png");
+
+  // Light theme
+  console.log("Generating light screenshots...");
+  await page.evaluate(() => document.documentElement.classList.add("light"));
+  await screenshot(page, "#score-card", "demo_scores_light.png");
+  await screenshot(page, "#interview-card", "demo_interview_light.png");
+  await screenshot(page, "#experts-card", "demo_experts_light.png");
 
   await browser.close();
   console.log("Done.");

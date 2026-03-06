@@ -1,5 +1,9 @@
 <p align="center">
-  <img src="assets/logo_icon.png" alt="Early Feedback" width="200">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/logo_icon.png">
+    <source media="(prefers-color-scheme: light)" srcset="assets/logo_icon_light.png">
+    <img src="assets/logo_icon.png" alt="Early Feedback" width="200">
+  </picture>
 </p>
 
 <h1 align="center">Early Feedback</h1>
@@ -16,19 +20,31 @@ We fed it "a freelancer invoicing tool with cash flow prediction." It came back 
 ## Demo
 
 <p align="center">
-  <img src="assets/demo_scores.png" alt="Scored evaluation with color-coded dimension breakdown" width="720">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/demo_scores.png">
+    <source media="(prefers-color-scheme: light)" srcset="assets/demo_scores_light.png">
+    <img src="assets/demo_scores.png" alt="Scored evaluation with color-coded dimension breakdown" width="720">
+  </picture>
 </p>
 
 Scored across standard dimensions plus product-specific critical dimensions identified automatically.
 
 <p align="center">
-  <img src="assets/demo_interview.png" alt="Full Q&A persona interview transcripts" width="720">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/demo_interview.png">
+    <source media="(prefers-color-scheme: light)" srcset="assets/demo_interview_light.png">
+    <img src="assets/demo_interview.png" alt="Full Q&A persona interview transcripts" width="720">
+  </picture>
 </p>
 
 Full Q&A transcripts — not summaries. Enthusiasts voice concerns. Skeptics acknowledge strengths.
 
 <p align="center">
-  <img src="assets/demo_experts.png" alt="Expert panel with independent domain assessments" width="720">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/demo_experts.png">
+    <source media="(prefers-color-scheme: light)" srcset="assets/demo_experts_light.png">
+    <img src="assets/demo_experts.png" alt="Expert panel with independent domain assessments" width="720">
+  </picture>
 </p>
 
 Independent expert assessments. When their conclusions conflict, the tension is preserved.

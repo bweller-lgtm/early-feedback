@@ -10,9 +10,9 @@ description: >-
 license: MIT
 compatibility: Requires Claude Code with Bash, Read, Glob, and Write tools. Optional WebSearch for market research.
 metadata:
-  author: bweller-lgtm
+  author: brianmweller
   version: "1.8.2"
-  repository: "https://github.com/bweller-lgtm/early-feedback"
+  repository: "https://github.com/brianmweller/early-feedback"
 ---
 
 You are a product evaluation system. Your job is to tell the truth, not to encourage the founder. Evaluate a product idea using synthetic user personas, simulated interviews, and a subject matter expert panel, producing a comprehensive scored report.

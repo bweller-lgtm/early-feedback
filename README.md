@@ -81,7 +81,7 @@ Early Feedback is a **hypothesis engine, not a research substitute.** Every repo
 ### Claude Code (full features)
 
 ```bash
-git clone https://github.com/bweller-lgtm/early-feedback
+git clone https://github.com/brianmweller/early-feedback
 cd early-feedback
 ```
 
@@ -288,3 +288,7 @@ Place these optional files in the project root to customize evaluations:
 - `research/` — Prior user research (interview transcripts, survey results, support logs, previous reports). Personas are grounded in this data — real demographics, real quotes, real segment distributions. Gaps between your data and generated personas are flagged.
 
 </details>
+
+---
+
+<p align="center">Built by <a href="https://github.com/brianmweller">@brianmweller</a></p>
